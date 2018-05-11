@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>AES TEST</title>
+</head>
+<body>
+<p>待加密值：123456RWEQR</p>
+<p id="p1"></p>
+<p id="p2"></p>
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/aes.js"></script>
+<script type="text/javascript" src="js/pad-zeropadding.js"></script>
+<script>
+	var key = CryptoJS.enc.Utf8.parse("abcdef0123456789");
+	function Encrypt(word) {
+		var srcs = CryptoJS.enc.Utf8.parse(word);
+		var encrypted = CryptoJS.AES.encrypt(srcs, key, {
+			mode : CryptoJS.mode.ECB,
+			padding : CryptoJS.pad.Pkcs7
+		});
+		return encrypted.toString();
+	}
+	
+	function Decrypt(word) {
+		var decrypt = CryptoJS.AES.decrypt(word, key, {
+			mode : CryptoJS.mode.ECB,
+			padding : CryptoJS.pad.Pkcs7
+		});
+		return CryptoJS.enc.Utf8.stringify(decrypt).toString();
+	}
+	var stringObj = "{\"value\":\"\",\"pageNum\":\"\"}";
+
+	//为了防止传参过程中出现中文乱码，需要对加密后的字符串进行特殊处理(主要是加号)
+
+	var tn = encodeURI(Encrypt(stringObj), "utf-8").replace(/\+/g, '%2B');
+	console.log(Encrypt("你好"));
+	console.log(Decrypt("j71u5oPM/TBdpGjeKtrDS35ppCv5buEV59ZDlm+YCoiGsYVb0GE1+D7JN+tpqlyU"));
+</script>
+</body>
+</html>
+

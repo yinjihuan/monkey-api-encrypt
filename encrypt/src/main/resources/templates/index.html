@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>数据传输加解密示例</title>
+	</head>
+	<script type="text/javascript" src = "js/aes.js"></script>
+	<script type="text/javascript" src = "js/crypto-js.js"></script>
+	<script type="text/javascript" src = "js/pad-zeropadding.js"></script>
+	<script type="text/javascript" src = "js/key.js"></script>
+	<script type="text/javascript" src = "js/security.js"></script>
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<body>
+	<script>
+	var key = CryptoJS.enc.Utf8.parse("abcdef0123456789");
+	function Encrypt(word) {
+		var srcs = CryptoJS.enc.Utf8.parse(word);
+		var encrypted = CryptoJS.AES.encrypt(srcs, key, {
+			mode : CryptoJS.mode.ECB,
+			padding : CryptoJS.pad.Pkcs7
+		});
+		return encrypted.toString();
+	}
+	
+	function Decrypt(word) {
+		var decrypt = CryptoJS.AES.decrypt(word, key, {
+			mode : CryptoJS.mode.ECB,
+			padding : CryptoJS.pad.Pkcs7
+		});
+		return CryptoJS.enc.Utf8.stringify(decrypt).toString();
+	}
+	//alert(Encrypt(JSON.stringify({name:"尹吉欢"})));
+	$.ajax({
+        type: "POST",
+        url:"/save",
+        data:Encrypt(JSON.stringify({name:"尹吉欢"})),
+        dataType:'json',
+        contentType: "application/json",
+        success: function(resData) {
+        	alert(resData);
+        	console.log(JSON.parse(Decrypt(resData)).name)
+        }
+	}); 
+	// 1.请求服务器，获取服务器返回的公钥pk1
+/* 	$.ajax({
+        type: "GET",
+        url:"/encrypt/pk",
+        dataType:'json',
+        async : false,
+        success: function(resData) {
+        	var keyPair = RSAUtils.getKeyPair(resData.publicExponent, '', resData.modulus);
+        	var data = RSAUtils.encryptedString(keyPair, modulus+"_"+public_exponent);
+        	alert(data);
+        }
+	}); */
+	var data = "2s7L+082dHKpSjc0KXy2+Q==";  
+	var key  = CryptoJS.enc.Latin1.parse('abcdef0123456789');  
+	var iv   = CryptoJS.enc.Latin1.parse('abcdef0123456789');  
+	//加密  
+	//var encrypted = CryptoJS.AES.encrypt(data,key,{iv:iv,mode:CryptoJS.mode.CBC,padding:CryptoJS.pad.ZeroPadding});  
+	//console.log(encrypted.toString());  
+	//解密  
+	var decrypted = CryptoJS.AES.decrypt(data,key,{iv:iv,padding:CryptoJS.pad.ZeroPadding});  
+	console.log(decrypted.toString());   
+	
+
+	</script>  
+</body>
+
+</html>
