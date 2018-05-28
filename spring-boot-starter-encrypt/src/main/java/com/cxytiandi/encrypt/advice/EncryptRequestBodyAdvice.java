@@ -72,13 +72,17 @@ public class EncryptRequestBodyAdvice implements RequestBodyAdvice {
 }
 
 class DecryptHttpInputMessage implements HttpInputMessage {
+	private Logger logger = LoggerFactory.getLogger(EncryptRequestBodyAdvice.class);
     private HttpHeaders headers;
     private InputStream body;
 
     public DecryptHttpInputMessage(HttpInputMessage inputMessage, String key, String charset) throws Exception {
         this.headers = inputMessage.getHeaders();
         String content = IOUtils.toString(inputMessage.getBody(), charset);
+        long startTime = System.currentTimeMillis();
         String decryptBody = AesEncryptUtils.aesDecrypt(content, key);
+        long endTime = System.currentTimeMillis();
+		logger.debug("Decrypt Time:" + (endTime - startTime));
         this.body = IOUtils.toInputStream(decryptBody, charset);
     }
 

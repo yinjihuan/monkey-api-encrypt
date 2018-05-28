@@ -69,7 +69,7 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 				}
 				String result =  AesEncryptUtils.aesEncrypt(content, encryptProperties.getKey());
 				long endTime = System.currentTimeMillis();
-				logger.info("Encrypt Time:" + (endTime - startTime));
+				logger.debug("Encrypt Time:" + (endTime - startTime));
 				return result;
 			} catch (Exception e) {
 				logger.error("加密数据异常", e);
