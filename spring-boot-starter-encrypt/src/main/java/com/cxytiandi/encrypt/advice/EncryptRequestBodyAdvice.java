@@ -54,7 +54,7 @@ public class EncryptRequestBodyAdvice implements RequestBodyAdvice {
 	@Override
 	public HttpInputMessage beforeBodyRead(HttpInputMessage inputMessage, MethodParameter parameter, Type targetType,
 			Class<? extends HttpMessageConverter<?>> converterType) throws IOException {
-		if(parameter.getMethod().isAnnotationPresent(Decrypt.class)){
+		if(parameter.getMethod().isAnnotationPresent(Decrypt.class) && !encryptProperties.isDebug()){
 			try {
 				return new DecryptHttpInputMessage(inputMessage, encryptProperties.getKey(), encryptProperties.getCharset());
 			} catch (Exception e) {

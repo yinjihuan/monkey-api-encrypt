@@ -43,7 +43,7 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
 			Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
 		boolean encrypt = false;
-		if (returnType.getMethod().isAnnotationPresent(Encrypt.class)) {
+		if (returnType.getMethod().isAnnotationPresent(Encrypt.class) && !encryptProperties.isDebug()) {
 			encrypt = true;
 		}
 

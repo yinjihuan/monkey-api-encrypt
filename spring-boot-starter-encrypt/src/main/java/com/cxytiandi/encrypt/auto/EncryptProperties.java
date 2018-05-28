@@ -11,6 +11,11 @@ public class EncryptProperties {
 
 	private String charset = "UTF-8";
 	
+	/**
+	 * 开启调试模式，调试模式下不进行加解密操作，用于像Swagger这种在线API测试场景
+	 */
+	private boolean debug = false;
+	
 	public String getKey() {
 		return key;
 	}
@@ -25,6 +30,14 @@ public class EncryptProperties {
 
 	public void setCharset(String charset) {
 		this.charset = charset;
+	}
+
+	public boolean isDebug() {
+		return debug;
+	}
+
+	public void setDebug(boolean debug) {
+		this.debug = debug;
 	}
 
 }
