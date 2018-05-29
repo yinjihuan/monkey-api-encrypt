@@ -80,7 +80,13 @@ class DecryptHttpInputMessage implements HttpInputMessage {
         this.headers = inputMessage.getHeaders();
         String content = IOUtils.toString(inputMessage.getBody(), charset);
         long startTime = System.currentTimeMillis();
-        String decryptBody = AesEncryptUtils.aesDecrypt(content, key);
+        // JSON 数据格式的不进行解密操作
+        String decryptBody = "";
+        if (content.startsWith("{")) {
+        	decryptBody = content;
+		} else {
+			decryptBody = AesEncryptUtils.aesDecrypt(content, key);
+		}
         long endTime = System.currentTimeMillis();
 		logger.debug("Decrypt Time:" + (endTime - startTime));
         this.body = IOUtils.toInputStream(decryptBody, charset);
