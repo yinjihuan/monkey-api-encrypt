@@ -6,7 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.cxytiandi.encrypt.anno.EnableEncrypt;
 
 /**
- * Hello world!
+ * 加解密测试
+ * 
+ * yinjihuan
  *
  */
 @SpringBootApplication
