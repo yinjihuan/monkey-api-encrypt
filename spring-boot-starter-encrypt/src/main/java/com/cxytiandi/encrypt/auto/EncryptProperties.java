@@ -16,6 +16,19 @@ public class EncryptProperties {
 	 */
 	private boolean debug = false;
 	
+	/**
+	 * 签名过期时间（分钟）
+	 */
+	private Long signExpireTime = 10L;
+	
+	public Long getSignExpireTime() {
+		return signExpireTime;
+	}
+
+	public void setSignExpireTime(Long signExpireTime) {
+		this.signExpireTime = signExpireTime;
+	}
+
 	public String getKey() {
 		return key;
 	}
