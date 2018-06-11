@@ -15,9 +15,9 @@
 	</properties>
 
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.2.RELEASE</version>
+		<groupId>com.cxytiandi</groupId>
+		<artifactId>spring-boot-starter-encrypt-parent</artifactId>
+		<version>1.0.0</version>
 	</parent>
 	
 	<dependencies>
