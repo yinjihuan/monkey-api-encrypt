@@ -25,7 +25,27 @@
 
 [https://github.com/yinjihuan/spring-boot-starter-encrypt](https://github.com/yinjihuan/spring-boot-starter-encrypt)
 
-先来看看怎么使用，可以下载源码，然后引入即可，然后在启动类上增加@EnableEncrypt注解开启加解密操作：
+先来看看怎么使用
+
+第一步：增加仓库地址
+```
+<repositories>
+	<repository>
+		 <id>jitpack.io</id>
+		 <url>https://jitpack.io</url>
+	</repository>
+</repositories>
+```
+第二步：增加依赖
+```
+<dependency>
+    <groupId>com.github.yinjihuan</groupId>
+    <artifactId>spring-boot-starter-encrypt</artifactId>
+    <version>1.0</version>
+</dependency>
+```
+
+然后在启动类上增加@EnableEncrypt注解开启加解密操作：
 
 ```
 @EnableEncrypt
