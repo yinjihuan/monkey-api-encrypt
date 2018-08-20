@@ -25,6 +25,8 @@
 
 [https://github.com/yinjihuan/spring-boot-starter-encrypt](https://github.com/yinjihuan/spring-boot-starter-encrypt)
 
+示例代码：https://github.com/yinjihuan/spring-boot-starter-encrypt-example
+
 先来看看怎么使用
 
 第一步：增加仓库地址
