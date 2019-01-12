@@ -27,3 +27,11 @@ monkey-api-encrypt是对基于Servlet的Web框架API请求进行统一加解密�
 
 
 
+# 作者
+- 尹吉欢 1304489315@qq.com
+- 博客 http://cxytiandi.com/blogs/yinjihuan
+- 技术交流微信群请加我微信拉你进群：jihuan900
+
+更多技术分享请关注微信公众号：猿天地
+
+![image.png](http://upload-images.jianshu.io/upload_images/2685774-da01a73d0cfc3f35.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
