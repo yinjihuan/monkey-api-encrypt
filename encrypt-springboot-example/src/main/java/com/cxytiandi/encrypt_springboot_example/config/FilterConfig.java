@@ -16,6 +16,7 @@ public class FilterConfig {
     @Bean
     public FilterRegistrationBean<EncryptionFilter> filterRegistration() {
     	EncryptionConfig config = new EncryptionConfig();
+    	config.setKey("abcdef0123456789");
     	config.setRequestDecyptUriList(Arrays.asList("/save", "/decryptEntityXml"));
     	config.setResponseEncryptUriList(Arrays.asList("/encryptStr", "/encryptEntity", "/save", "/encryptEntityXml", "/decryptEntityXml"));
         FilterRegistrationBean<EncryptionFilter> registration = new FilterRegistrationBean<EncryptionFilter>();

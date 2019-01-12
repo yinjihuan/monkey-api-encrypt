@@ -27,9 +27,9 @@ public class UserController {
 	}
 	
 	@PostMapping("/save")
-	public String save(@RequestBody UserDto dto) {
+	public UserDto save(@RequestBody UserDto dto) {
 		System.err.println(dto.getId() + "\t" + dto.getName());
-		return dto.getName();
+		return dto;
 	}
 	
 	@RequestMapping(value="encryptEntityXml",produces= {MediaType.APPLICATION_XML_VALUE})

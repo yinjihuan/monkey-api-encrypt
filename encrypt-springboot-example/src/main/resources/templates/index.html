@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>数据传输加解密示例</title>
+	</head>
+	<script type="text/javascript" src = "js/aes.js"></script>
+	<script type="text/javascript" src = "js/crypto-js.js"></script>
+	<script type="text/javascript" src = "js/pad-zeropadding.js"></script>
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<body>
+	<input type="button" value="获取数据" onclick="getData()"/>
+	<input type="button" value="发送数据" onclick="sendData()"/>
+	<script>
+	function getData() {
+		$.ajax({
+	        type: "GET",
+	        url:"/encryptEntity",
+	        dataType:'text',
+	        success: function(resData) {
+	        	alert(resData);
+	        	alert(Decrypt(resData));
+	        }
+		});
+	}
+	
+	function sendData() {
+		alert("发送的数据："+Encrypt(JSON.stringify({id:1,name:"尹吉欢"})));
+		$.ajax({
+	        type: "POST",
+	        url:"/save",
+	        data:Encrypt(JSON.stringify({id:1,name:"尹吉欢"})),
+	        dataType:'text',
+	        contentType: "application/json",
+	        success: function(resData) {
+	        	alert("返回的数据："+resData);
+	        	alert("解密之后："+Decrypt(resData));
+	        	alert("解密之后转json对象："+JSON.parse(Decrypt(resData)).name);
+	        }
+		}); 
+	}
+	
+	var key = CryptoJS.enc.Utf8.parse("abcdef0123456789");
+	function Encrypt(word) {
+		var srcs = CryptoJS.enc.Utf8.parse(word);
+		var encrypted = CryptoJS.AES.encrypt(srcs, key, {
+			mode : CryptoJS.mode.ECB,
+			padding : CryptoJS.pad.Pkcs7
+		});
+		return encrypted.toString();
+	}
+	
+	function Decrypt(word) {
+		var decrypt = CryptoJS.AES.decrypt(word, key, {
+			mode : CryptoJS.mode.ECB,
+			padding : CryptoJS.pad.Pkcs7
+		});
+		return CryptoJS.enc.Utf8.stringify(decrypt).toString();
+	}
+	
+	</script>  
+</body>
+
+</html>
