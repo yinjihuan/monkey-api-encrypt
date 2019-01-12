@@ -44,6 +44,20 @@ public class EncryptionConfig {
 	 */
 	private boolean debug = false;
 	
+	public EncryptionConfig() {
+		super();
+	}
+	
+	public EncryptionConfig(String key, List<String> responseEncryptUriList, List<String> requestDecyptUriList,
+			String responseCharset, boolean debug) {
+		super();
+		this.key = key;
+		this.responseEncryptUriList = responseEncryptUriList;
+		this.requestDecyptUriList = requestDecyptUriList;
+		this.responseCharset = responseCharset;
+		this.debug = debug;
+	}
+
 	public String getKey() {
 		return key;
 	}

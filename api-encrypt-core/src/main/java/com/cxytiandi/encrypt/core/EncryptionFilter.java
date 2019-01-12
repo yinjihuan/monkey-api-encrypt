@@ -1,6 +1,8 @@
 package com.cxytiandi.encrypt.core;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -30,11 +32,17 @@ public class EncryptionFilter implements Filter {
 	
 	private EncryptionConfig encryptionConfig;
 	
+	public EncryptionFilter() {
+		this.encryptionConfig = new EncryptionConfig();
+	}
+	
 	public EncryptionFilter(EncryptionConfig config) {
-		if (config == null) {
-			throw new RuntimeException("请配置EncryptionConfig");
-		}
 		this.encryptionConfig = config;
+	}
+	
+	public EncryptionFilter(String key, List<String> responseEncryptUriList, List<String> requestDecyptUriList,
+			String responseCharset, boolean debug) {
+		this.encryptionConfig = new EncryptionConfig(key, responseEncryptUriList, requestDecyptUriList, responseCharset, debug);
 	}
 	
 	@Override
