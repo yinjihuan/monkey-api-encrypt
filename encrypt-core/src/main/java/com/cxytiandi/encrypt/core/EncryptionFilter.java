@@ -12,9 +12,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.cxytiandi.encrypt.util.AesEncryptUtils;
+
+import com.cxytiandi.encrypt.algorithm.AesEncryptAlgorithm;
+import com.cxytiandi.encrypt.algorithm.EncryptAlgorithm;
 
 /**
  * 数据加解密过滤器
@@ -32,12 +35,19 @@ public class EncryptionFilter implements Filter {
 	
 	private EncryptionConfig encryptionConfig;
 	
+	private EncryptAlgorithm encryptAlgorithm = new AesEncryptAlgorithm();;
+	
 	public EncryptionFilter() {
 		this.encryptionConfig = new EncryptionConfig();
 	}
 	
 	public EncryptionFilter(EncryptionConfig config) {
 		this.encryptionConfig = config;
+	}
+	
+	public EncryptionFilter(EncryptionConfig config, EncryptAlgorithm encryptAlgorithm) {
+		this.encryptionConfig = config;
+		this.encryptAlgorithm = encryptAlgorithm;
 	}
 	
 	public EncryptionFilter(String key, List<String> responseEncryptUriList, List<String> requestDecyptUriList,
@@ -90,7 +100,7 @@ public class EncryptionFilter implements Filter {
 			String requestData = reqestWrapper.getRequestData();
 			logger.debug("RequestData: {}", requestData);
 			try {
-				String decyptRequestData = AesEncryptUtils.aesDecrypt(requestData, encryptionConfig.getKey());
+				String decyptRequestData = encryptAlgorithm.decrypt(requestData, encryptionConfig.getKey());
 				logger.debug("DecyptRequestData: {}", decyptRequestData);
 				reqestWrapper.setRequestData(decyptRequestData);
 			} catch (Exception e) {
@@ -118,7 +128,7 @@ public class EncryptionFilter implements Filter {
 			logger.debug("ResponeData: {}", responeData);
 			ServletOutputStream out = null;
 			try {
-				responeData = AesEncryptUtils.aesEncrypt(responeData, encryptionConfig.getKey());
+				responeData = encryptAlgorithm.encrypt(responeData, encryptionConfig.getKey());
 				logger.debug("EncryptResponeData: {}", responeData);
 				response.setCharacterEncoding(encryptionConfig.getResponseCharset());
 		        out = response.getOutputStream();

@@ -19,7 +19,7 @@ public class EncryptionReqestWrapper extends HttpServletRequestWrapper  {
 		try {
 			requestBody = StreamUtils.copyToByteArray(request.getInputStream());
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 	
