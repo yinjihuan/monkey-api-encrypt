@@ -6,36 +6,18 @@
 
 数据的安全性非常重要，特别是用户相关的信息，稍有不慎就会被不法分子盗用，所以我们对这块要非常重视，容不得马虎。
 
-## 如何保证API调用时数据的安全性？
+monkey-api-encrypt是对基于Servlet的Web框架API请求进行统一加解密操作的框架。
 
-1. 通信使用https
-2. 请求签名，防止参数被篡改
-3. 身份确认机制，每次请求都要验证是否合法
-4. APP中使用ssl pinning防止抓包操作
-5. 对所有请求和响应都进行加解密操作
-6. 等等方案.......
+## 功能点
 
-##  对所有请求和响应都进行加解密操作
+- 支持所有基于Servlet的Web框架（Spring Boot, Spring Cloud Zuul等框架）
+- 内置AES加密算法
+- 支持用户自定义加密算法
+- 使用简单，有操作示列
 
-方案有很多种，当你做的越多，也就意味着安全性更高，今天我跟大家来介绍一下对所有请求和响应都进行加解密操作的方案，即使能抓包，即使能调用我的接口，但是我返回的数据是加密的，只要加密算法够安全，你得到了我的加密内容也对我没什么影响。
+## 文档
 
-像这种工作最好做成统一处理的，你不能让每个开发都去关注这件事情，如果让每个开发去关注这件事情就很麻烦了，返回数据时还得手动调用下加密的方法，接收数据后还得调用下解密的方法。
 
----
-写了一个框架，专门用于对请求加解密，最开始的1.0版本是基于Spring MVC提供的机制实现的，对应的源码是spring-boot-starter-encrypt。
 
-内置了AES加密算法。原理和使用方法请参考[http://cxytiandi.com/blog/detail/20235](http://cxytiandi.com/blog/detail/20235)
 
-示例代码：https://github.com/yinjihuan/spring-boot-starter-encrypt-example
 
-1.0版本只能在Spring Boot项目中使用。
-
----
-
-# 1.1版本支持所有基于Servlet的框架
-
-源码对应的是encrypt-core
-
-更多技术分享请关注微信公众号：猿天地
-
-![image.png](http://upload-images.jianshu.io/upload_images/2685774-da01a73d0cfc3f35.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
