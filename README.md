@@ -17,7 +17,13 @@ monkey-api-encrypt是对基于Servlet的Web框架API请求进行统一加解密�
 
 ## 文档
 
+- [使用文档](https://github.com/yinjihuan/monkey-api-encrypt/wiki/%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3)
 
+- [原理文档](https://github.com/yinjihuan/monkey-api-encrypt/wiki/%E5%8E%9F%E7%90%86%E6%96%87%E6%A1%A3)
+
+- [自定义加密算法](https://github.com/yinjihuan/monkey-api-encrypt/wiki/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95)
+
+- [常见问题](https://github.com/yinjihuan/monkey-api-encrypt/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)
 
 
 
