@@ -29,7 +29,12 @@
 示例代码：https://github.com/yinjihuan/spring-boot-starter-encrypt-example
 
 1.0版本只能在Spring Boot项目中使用。
+
 ---
+
+# 1.1版本支持所有基于Servlet的框架
+
+源码对应的是encrypt-core
 
 更多技术分享请关注微信公众号：猿天地
 
