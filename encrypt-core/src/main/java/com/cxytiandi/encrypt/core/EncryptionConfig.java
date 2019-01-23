@@ -3,6 +3,8 @@ package com.cxytiandi.encrypt.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
 /**
  * 加解密配置类
  * 
@@ -13,6 +15,7 @@ import java.util.List;
  * @about http://cxytiandi.com/about
  *
  */
+@ConfigurationProperties(prefix = "spring.encrypt")
 public class EncryptionConfig {
 
 	/**
@@ -43,6 +46,16 @@ public class EncryptionConfig {
 	 * 开启调试模式，调试模式下不进行加解密操作，用于像Swagger这种在线API测试场景
 	 */
 	private boolean debug = false;
+	
+	/**
+	 * 过滤器拦截模式
+	 */
+	private String[] urlPatterns = new String[] { "/*" };
+	
+	/**
+	 * 过滤器执行顺序
+	 */
+	private int order = 1;
 	
 	public EncryptionConfig() {
 		super();
@@ -98,4 +111,19 @@ public class EncryptionConfig {
 		this.debug = debug;
 	}
 	
+	public void setUrlPatterns(String[] urlPatterns) {
+		this.urlPatterns = urlPatterns;
+	}
+	
+	public String[] getUrlPatterns() {
+		return urlPatterns;
+	}
+	
+	public void setOrder(int order) {
+		this.order = order;
+	}
+	
+	public int getOrder() {
+		return order;
+	}
 }
