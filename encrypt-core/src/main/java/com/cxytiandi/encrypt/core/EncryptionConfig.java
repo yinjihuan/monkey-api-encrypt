@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import com.cxytiandi.encrypt.springboot.init.ApiEncryptDataInit;
+
 /**
  * 加解密配置类
  * 
@@ -80,6 +82,10 @@ public class EncryptionConfig {
 	}
 
 	public List<String> getResponseEncryptUriList() {
+		// 配置了注解则用注解获取的URI
+		if (ApiEncryptDataInit.responseEncryptUriList.size() > 0) {
+			return ApiEncryptDataInit.responseEncryptUriList;
+		}
 		return responseEncryptUriList;
 	}
 
@@ -88,6 +94,10 @@ public class EncryptionConfig {
 	}
 
 	public List<String> getRequestDecyptUriList() {
+		// 配置了注解则用注解获取的URI
+		if (ApiEncryptDataInit.requestDecyptUriList.size() > 0) {
+			return ApiEncryptDataInit.requestDecyptUriList;
+		}
 		return requestDecyptUriList;
 	}
 

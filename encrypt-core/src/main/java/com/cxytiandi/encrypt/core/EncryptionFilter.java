@@ -75,8 +75,9 @@ public class EncryptionFilter implements Filter {
 			return;
 		}
 		
-		boolean decryptionStatus = encryptionConfig.getRequestDecyptUriList().contains(uri);
-		boolean encryptionStatus = encryptionConfig.getResponseEncryptUriList().contains(uri);
+		
+		boolean decryptionStatus = this.contains(encryptionConfig.getRequestDecyptUriList(), uri, req.getMethod());
+		boolean encryptionStatus = this.contains(encryptionConfig.getResponseEncryptUriList(), uri, req.getMethod());
 		
 		// 没有配置具体加解密的URI默认全部都开启加解密
 		if (encryptionConfig.getRequestDecyptUriList().size() == 0 
@@ -147,6 +148,18 @@ public class EncryptionFilter implements Filter {
 		
 	}
 
+	private boolean contains(List<String> list, String uri, String methodType) {
+		if (list.contains(uri)) {
+			return true;
+		}
+		String prefixUri = methodType.toLowerCase() + ":" + uri;
+		logger.debug("contains uri: {}", prefixUri);
+		if (list.contains(prefixUri)) {
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public void destroy() {
 		

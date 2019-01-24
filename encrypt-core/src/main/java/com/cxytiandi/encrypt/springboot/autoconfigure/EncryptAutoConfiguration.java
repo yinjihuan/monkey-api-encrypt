@@ -6,8 +6,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import com.cxytiandi.encrypt.core.EncryptionConfig;
 import com.cxytiandi.encrypt.core.EncryptionFilter;
+import com.cxytiandi.encrypt.springboot.init.ApiEncryptDataInit;
 
 
 /**
@@ -45,4 +47,8 @@ public class EncryptAutoConfiguration {
         return registration;
     }
 	
+	@Bean
+	public ApiEncryptDataInit apiEncryptDataInit() {
+		return new ApiEncryptDataInit();
+	}
 }
