@@ -50,6 +50,12 @@ public class EncryptionFilter implements Filter {
 		this.encryptAlgorithm = encryptAlgorithm;
 	}
 	
+	public EncryptionFilter(String key) {
+		EncryptionConfig config = new EncryptionConfig();
+		config.setKey(key);
+		this.encryptionConfig = config;
+	}
+	
 	public EncryptionFilter(String key, List<String> responseEncryptUriList, List<String> requestDecyptUriList,
 			String responseCharset, boolean debug) {
 		this.encryptionConfig = new EncryptionConfig(key, responseEncryptUriList, requestDecyptUriList, responseCharset, debug);

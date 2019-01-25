@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,7 +45,13 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
     @Override
     public void setApplicationContext(ApplicationContext ctx) throws BeansException {
         Map<String, Object> beanMap = ctx.getBeansWithAnnotation(RestController.class);
-        if (beanMap != null) {
+        initData(beanMap);
+        beanMap = ctx.getBeansWithAnnotation(Controller.class);
+        initData(beanMap);
+    }
+
+	private void initData(Map<String, Object> beanMap) {
+		if (beanMap != null) {
             for (Object bean : beanMap.values()) {
                 Class<?> clz = bean.getClass();
                 Method[] methods = clz.getMethods();
@@ -69,7 +76,7 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
                 }
             }
         }
-    }
+	}
     
     private String getApiUri(Class<?> clz, Method method) {
     	String methodType = "";
