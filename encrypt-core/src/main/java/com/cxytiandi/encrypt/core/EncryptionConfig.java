@@ -3,6 +3,10 @@ package com.cxytiandi.encrypt.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import com.cxytiandi.encrypt.springboot.init.ApiEncryptDataInit;
+
 /**
  * 加解密配置类
  * 
@@ -13,6 +17,7 @@ import java.util.List;
  * @about http://cxytiandi.com/about
  *
  */
+@ConfigurationProperties(prefix = "spring.encrypt")
 public class EncryptionConfig {
 
 	/**
@@ -44,6 +49,16 @@ public class EncryptionConfig {
 	 */
 	private boolean debug = false;
 	
+	/**
+	 * 过滤器拦截模式
+	 */
+	private String[] urlPatterns = new String[] { "/*" };
+	
+	/**
+	 * 过滤器执行顺序
+	 */
+	private int order = 1;
+	
 	public EncryptionConfig() {
 		super();
 	}
@@ -67,6 +82,10 @@ public class EncryptionConfig {
 	}
 
 	public List<String> getResponseEncryptUriList() {
+		// 配置了注解则用注解获取的URI
+		if (ApiEncryptDataInit.responseEncryptUriList.size() > 0) {
+			return ApiEncryptDataInit.responseEncryptUriList;
+		}
 		return responseEncryptUriList;
 	}
 
@@ -75,6 +94,10 @@ public class EncryptionConfig {
 	}
 
 	public List<String> getRequestDecyptUriList() {
+		// 配置了注解则用注解获取的URI
+		if (ApiEncryptDataInit.requestDecyptUriList.size() > 0) {
+			return ApiEncryptDataInit.requestDecyptUriList;
+		}
 		return requestDecyptUriList;
 	}
 
@@ -98,4 +121,19 @@ public class EncryptionConfig {
 		this.debug = debug;
 	}
 	
+	public void setUrlPatterns(String[] urlPatterns) {
+		this.urlPatterns = urlPatterns;
+	}
+	
+	public String[] getUrlPatterns() {
+		return urlPatterns;
+	}
+	
+	public void setOrder(int order) {
+		this.order = order;
+	}
+	
+	public int getOrder() {
+		return order;
+	}
 }
