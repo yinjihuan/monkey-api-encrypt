@@ -137,6 +137,7 @@ public class EncryptionFilter implements Filter {
 			try {
 				responeData = encryptAlgorithm.encrypt(responeData, encryptionConfig.getKey());
 				logger.debug("EncryptResponeData: {}", responeData);
+				response.setContentLength(responeData.length());
 				response.setCharacterEncoding(encryptionConfig.getResponseCharset());
 		        out = response.getOutputStream();
 		        out.write(responeData.getBytes(encryptionConfig.getResponseCharset()));
