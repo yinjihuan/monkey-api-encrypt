@@ -7,6 +7,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.cxytiandi.encrypt.algorithm.EncryptAlgorithm;
 import com.cxytiandi.encrypt.core.EncryptionConfig;
 import com.cxytiandi.encrypt.core.EncryptionFilter;
 import com.cxytiandi.encrypt.springboot.init.ApiEncryptDataInit;
@@ -28,6 +29,9 @@ public class EncryptAutoConfiguration {
 	@Autowired
 	private EncryptionConfig encryptionConfig;
 	
+	@Autowired(required=false)
+	private EncryptAlgorithm encryptAlgorithm;
+	
 	/**
 	 * 不要用泛型注册Filter,泛型在Spring Boot 2.x版本中才有
 	 * @return
@@ -40,7 +44,11 @@ public class EncryptAutoConfiguration {
     	config.setRequestDecyptUriList(encryptionConfig.getRequestDecyptUriList());
     	config.setResponseEncryptUriList(encryptionConfig.getResponseEncryptUriList());
         FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new EncryptionFilter(config));
+        if (encryptAlgorithm != null) {
+        	registration.setFilter(new EncryptionFilter(config, encryptAlgorithm));
+		} else {
+			registration.setFilter(new EncryptionFilter(config));
+		}
         registration.addUrlPatterns(encryptionConfig.getUrlPatterns());
         registration.setName("EncryptionFilter");
         registration.setOrder(encryptionConfig.getOrder());

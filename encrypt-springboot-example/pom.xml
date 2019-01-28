@@ -32,7 +32,7 @@
 			<artifactId>jackson-dataformat-xml</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.cxytiandi</groupId>
+		    <groupId>com.cxytiandi</groupId>
 			<artifactId>monkey-api-encrypt-core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 		</dependency>

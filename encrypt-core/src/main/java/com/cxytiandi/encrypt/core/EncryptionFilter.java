@@ -35,7 +35,7 @@ public class EncryptionFilter implements Filter {
 	
 	private EncryptionConfig encryptionConfig;
 	
-	private EncryptAlgorithm encryptAlgorithm = new AesEncryptAlgorithm();;
+	private EncryptAlgorithm encryptAlgorithm = new AesEncryptAlgorithm();
 	
 	public EncryptionFilter() {
 		this.encryptionConfig = new EncryptionConfig();
