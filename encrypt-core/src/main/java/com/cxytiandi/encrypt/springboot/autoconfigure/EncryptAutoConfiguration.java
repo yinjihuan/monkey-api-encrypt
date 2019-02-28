@@ -39,6 +39,7 @@ public class EncryptAutoConfiguration {
     	config.setKey(encryptionConfig.getKey());
     	config.setRequestDecyptUriList(encryptionConfig.getRequestDecyptUriList());
     	config.setResponseEncryptUriList(encryptionConfig.getResponseEncryptUriList());
+	config.setDebug(encryptionConfig.isDebug());
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(new EncryptionFilter(config));
         registration.addUrlPatterns(encryptionConfig.getUrlPatterns());
