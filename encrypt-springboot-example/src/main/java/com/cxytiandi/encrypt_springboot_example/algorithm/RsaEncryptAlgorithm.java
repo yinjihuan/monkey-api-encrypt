@@ -1,5 +1,7 @@
 package com.cxytiandi.encrypt_springboot_example.algorithm;
 
+import org.springframework.stereotype.Component;
+
 import com.cxytiandi.encrypt.algorithm.EncryptAlgorithm;
 import com.cxytiandi.encrypt_springboot_example.util.RSAUtils;
 /**
@@ -12,6 +14,7 @@ import com.cxytiandi.encrypt_springboot_example.util.RSAUtils;
  * @about http://cxytiandi.com/about
  *
  */
+//@Component
 public class RsaEncryptAlgorithm implements EncryptAlgorithm {
 
 	public String encrypt(String content, String encryptKey) throws Exception {

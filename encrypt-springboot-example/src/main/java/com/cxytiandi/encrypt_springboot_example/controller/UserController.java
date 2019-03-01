@@ -15,7 +15,7 @@ import com.cxytiandi.encrypt_springboot_example.dto.UserXmlDto;
 @RestController
 public class UserController {
 
-	
+	@Encrypt
 	@GetMapping("/encryptStr")
 	public String encryptStr() {
 		return "加密字符串";
