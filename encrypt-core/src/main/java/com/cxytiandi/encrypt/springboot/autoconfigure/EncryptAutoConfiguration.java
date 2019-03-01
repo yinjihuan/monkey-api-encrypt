@@ -39,15 +39,11 @@ public class EncryptAutoConfiguration {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Bean
     public FilterRegistrationBean filterRegistration() {
-    	EncryptionConfig config = new EncryptionConfig();
-    	config.setKey(encryptionConfig.getKey());
-    	config.setRequestDecyptUriList(encryptionConfig.getRequestDecyptUriList());
-    	config.setResponseEncryptUriList(encryptionConfig.getResponseEncryptUriList());
         FilterRegistrationBean registration = new FilterRegistrationBean();
         if (encryptAlgorithm != null) {
-        	registration.setFilter(new EncryptionFilter(config, encryptAlgorithm));
+        	registration.setFilter(new EncryptionFilter(encryptionConfig, encryptAlgorithm));
 		} else {
-			registration.setFilter(new EncryptionFilter(config));
+			registration.setFilter(new EncryptionFilter(encryptionConfig));
 		}
         registration.addUrlPatterns(encryptionConfig.getUrlPatterns());
         registration.setName("EncryptionFilter");
