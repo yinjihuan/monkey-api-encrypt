@@ -42,8 +42,11 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
 	 */
 	public static List<String> requestDecyptUriList = new ArrayList<String>();
     
+	private String contextPath;
+	
     @Override
     public void setApplicationContext(ApplicationContext ctx) throws BeansException {
+    	this.contextPath = ctx.getEnvironment().getProperty("server.servlet.context-path");
         Map<String, Object> beanMap = ctx.getBeansWithAnnotation(RestController.class);
         initData(beanMap);
         beanMap = ctx.getBeansWithAnnotation(Controller.class);
@@ -115,6 +118,9 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
             
         }
         
+        if (StringUtils.hasText(this.contextPath)) {
+        	 return methodType + this.contextPath + uri.toString();
+		}
         return methodType + uri.toString();
     }
     
