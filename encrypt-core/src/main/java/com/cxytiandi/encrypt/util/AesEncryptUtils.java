@@ -35,7 +35,7 @@ public class AesEncryptUtils {
 		Cipher cipher = Cipher.getInstance(ALGORITHMSTR);
 		cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(decryptKey.getBytes(), "AES"));
 		byte[] decryptBytes = cipher.doFinal(encryptBytes);
-		return new String(decryptBytes);
+		return new String(decryptBytes, "utf-8");
 	}
 
 	public static String aesDecrypt(String encryptStr, String decryptKey) throws Exception {
