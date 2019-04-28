@@ -103,7 +103,7 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
         	
         	RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
         	RequestMethod m = requestMapping.method()[0];
-        	methodType = m.name().toLowerCase();
+        	methodType = m.name().toLowerCase() + ":";
             uri.append(formatUri(requestMapping.value()[0]));
             
         } else if (method.isAnnotationPresent(PutMapping.class)) {
