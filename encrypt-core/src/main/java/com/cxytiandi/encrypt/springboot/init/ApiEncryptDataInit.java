@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -59,17 +60,19 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
                 Class<?> clz = bean.getClass();
                 Method[] methods = clz.getMethods();
                 for (Method method : methods) {
-                    if (method.isAnnotationPresent(Encrypt.class)) {
-                    	// 注解中的URI优先级高
-                    	String uri = method.getAnnotation(Encrypt.class).value();
+                	Encrypt encrypt = AnnotationUtils.findAnnotation(method, Encrypt.class);
+                	if (encrypt != null) {
+                		// 注解中的URI优先级高
+                    	String uri = encrypt.value();
                     	if (!StringUtils.hasText(uri)) {
                     		uri = getApiUri(clz, method);
 						}
                         logger.debug("Encrypt URI: {}", uri);
                         responseEncryptUriList.add(uri);
-                    }
-                    if (method.isAnnotationPresent(Decrypt.class)) {
-                    	String uri = method.getAnnotation(Decrypt.class).value();
+                	}
+                	Decrypt decrypt = AnnotationUtils.findAnnotation(method, Decrypt.class);
+                    if (decrypt != null) {
+                    	String uri = decrypt.value();
                     	if (!StringUtils.hasText(uri)) {
                     		uri = getApiUri(clz, method);
 						}
@@ -85,42 +88,44 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
     	String methodType = "";
         StringBuilder uri = new StringBuilder();
         
-        if (clz.isAnnotationPresent(RequestMapping.class)) {
-        	uri.append(formatUri(clz.getAnnotation(RequestMapping.class).value()[0]));
+        RequestMapping reqMapping = AnnotationUtils.findAnnotation(clz, RequestMapping.class);
+        if (reqMapping != null) {
+        	uri.append(formatUri(reqMapping.value()[0]));
 		}
         
-        if (method.isAnnotationPresent(GetMapping.class)) {
-        	
+        GetMapping getMapping = AnnotationUtils.findAnnotation(method, GetMapping.class);
+        PostMapping postMapping = AnnotationUtils.findAnnotation(method, PostMapping.class);
+        RequestMapping requestMapping = AnnotationUtils.findAnnotation(method, RequestMapping.class);
+        PutMapping putMapping = AnnotationUtils.findAnnotation(method, PutMapping.class);
+        DeleteMapping deleteMapping = AnnotationUtils.findAnnotation(method, DeleteMapping.class);
+        
+        if (getMapping != null) {
         	methodType = HttpMethodTypePrefixConstant.GET;
-            uri.append(formatUri(method.getAnnotation(GetMapping.class).value()[0]));
+            uri.append(formatUri(getMapping.value()[0]));
             
-        } else if (method.isAnnotationPresent(PostMapping.class)) {
-        	
+        } else if (postMapping != null) {
         	methodType = HttpMethodTypePrefixConstant.POST;
-            uri.append(formatUri(method.getAnnotation(PostMapping.class).value()[0]));
+            uri.append(formatUri(postMapping.value()[0]));
             
-        } else if (method.isAnnotationPresent(RequestMapping.class)) {
-        	
-        	RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
+        } else if (putMapping != null) {
+        	methodType = HttpMethodTypePrefixConstant.PUT;
+            uri.append(formatUri(putMapping.value()[0]));
+            
+        } else if (deleteMapping != null) {
+        	methodType = HttpMethodTypePrefixConstant.DELETE;
+            uri.append(formatUri(deleteMapping.value()[0]));
+            
+        } else if (requestMapping != null) {
         	RequestMethod m = requestMapping.method()[0];
         	methodType = m.name().toLowerCase() + ":";
             uri.append(formatUri(requestMapping.value()[0]));
             
-        } else if (method.isAnnotationPresent(PutMapping.class)) {
-        	
-        	methodType = HttpMethodTypePrefixConstant.PUT;
-            uri.append(formatUri(method.getAnnotation(PutMapping.class).value()[0]));
-            
-        } else if (method.isAnnotationPresent(DeleteMapping.class)) {
-        	
-        	methodType = HttpMethodTypePrefixConstant.DELETE;
-            uri.append(formatUri(method.getAnnotation(DeleteMapping.class).value()[0]));
-            
-        }
+        } 
         
         if (StringUtils.hasText(this.contextPath)) {
         	 return methodType + this.contextPath + uri.toString();
 		}
+        
         return methodType + uri.toString();
     }
     
