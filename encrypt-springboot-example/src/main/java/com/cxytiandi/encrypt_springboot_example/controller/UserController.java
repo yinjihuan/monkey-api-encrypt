@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cxytiandi.encrypt.springboot.annotation.Decrypt;
+import com.cxytiandi.encrypt.springboot.annotation.DecryptIgnore;
 import com.cxytiandi.encrypt.springboot.annotation.Encrypt;
 import com.cxytiandi.encrypt_springboot_example.dto.UserDto;
 import com.cxytiandi.encrypt_springboot_example.dto.UserXmlDto;
@@ -15,13 +16,13 @@ import com.cxytiandi.encrypt_springboot_example.dto.UserXmlDto;
 @RestController
 public class UserController {
 
-	@Encrypt
+	//@Encrypt
 	@GetMapping("/encryptStr")
 	public String encryptStr() {
 		return "加密字符串";
 	}
 	
-	@Encrypt
+	//@Encrypt
 	@GetMapping("/encryptEntity")
 	public UserDto encryptEntity() {
 		UserDto dto = new UserDto();
@@ -32,6 +33,7 @@ public class UserController {
 	
 	//@Encrypt
 	//@Decrypt
+	@DecryptIgnore
 	@PostMapping("/save")
 	public UserDto save(@RequestBody UserDto dto) {
 		System.err.println(dto.getId() + "\t" + dto.getName());
