@@ -38,6 +38,20 @@ public class EncryptionConfig {
 	 * 不支持@PathVariable格式的URI
 	 */
 	private List<String> requestDecyptUriList = new ArrayList<String>();
+	
+	/**
+	 * 忽略加密的接口URI<br>
+	 * 比如：/user/list<br>
+	 * 不支持@PathVariable格式的URI
+	 */
+	private List<String> responseEncryptUriIgnoreList = new ArrayList<String>();
+	
+	/**
+	 * 忽略对请求内容进行解密的接口URI<br>
+	 * 比如：/user/list<br>
+	 * 不支持@PathVariable格式的URI
+	 */
+	private List<String> requestDecyptUriIgnoreList = new ArrayList<String>();
 
 	/**
 	 * 响应数据编码
@@ -136,4 +150,29 @@ public class EncryptionConfig {
 	public int getOrder() {
 		return order;
 	}
+
+	public List<String> getResponseEncryptUriIgnoreList() {
+		// 配置了注解则用注解获取的URI
+		if (ApiEncryptDataInit.responseEncryptUriIgnoreList.size() > 0) {
+			return ApiEncryptDataInit.responseEncryptUriIgnoreList;
+		}
+		return responseEncryptUriIgnoreList;
+	}
+
+	public void setResponseEncryptUriIgnoreList(List<String> responseEncryptUriIgnoreList) {
+		this.responseEncryptUriIgnoreList = responseEncryptUriIgnoreList;
+	}
+
+	public List<String> getRequestDecyptUriIgnoreList() {
+		// 配置了注解则用注解获取的URI
+		if (ApiEncryptDataInit.requestDecyptUriIgnoreList.size() > 0) {
+			return ApiEncryptDataInit.requestDecyptUriIgnoreList;
+		}
+		return requestDecyptUriIgnoreList;
+	}
+
+	public void setRequestDecyptUriIgnoreList(List<String> requestDecyptUriIgnoreList) {
+		this.requestDecyptUriIgnoreList = requestDecyptUriIgnoreList;
+	}
+	
 }

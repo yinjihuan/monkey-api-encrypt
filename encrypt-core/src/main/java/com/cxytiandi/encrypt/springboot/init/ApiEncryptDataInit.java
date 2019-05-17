@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cxytiandi.encrypt.springboot.HttpMethodTypePrefixConstant;
 import com.cxytiandi.encrypt.springboot.annotation.Decrypt;
+import com.cxytiandi.encrypt.springboot.annotation.DecryptIgnore;
 import com.cxytiandi.encrypt.springboot.annotation.Encrypt;
+import com.cxytiandi.encrypt.springboot.annotation.EncryptIgnore;
 
 public class ApiEncryptDataInit implements ApplicationContextAware {
 	
@@ -43,6 +45,20 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
 	 */
 	public static List<String> requestDecyptUriList = new ArrayList<String>();
     
+	/**
+	 * 忽略加密的接口URI<br>
+	 * 比如：/user/list<br>
+	 * 不支持@PathVariable格式的URI
+	 */
+	public static List<String> responseEncryptUriIgnoreList = new ArrayList<String>();
+	
+	/**
+	 * 忽略对请求内容进行解密的接口URI<br>
+	 * 比如：/user/list<br>
+	 * 不支持@PathVariable格式的URI
+	 */
+	public static List<String> requestDecyptUriIgnoreList = new ArrayList<String>();
+	
 	private String contextPath;
 	
     @Override
@@ -78,6 +94,25 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
 						}
                         logger.debug("Decrypt URI: {}", uri);
                         requestDecyptUriList.add(uri);
+                    }
+                    EncryptIgnore encryptIgnore = AnnotationUtils.findAnnotation(method, EncryptIgnore.class);
+                	if (encryptIgnore != null) {
+                		// 注解中的URI优先级高
+                    	String uri = encryptIgnore.value();
+                    	if (!StringUtils.hasText(uri)) {
+                    		uri = getApiUri(clz, method);
+						}
+                        logger.debug("EncryptIgnore URI: {}", uri);
+                        responseEncryptUriIgnoreList.add(uri);
+                	}
+                	DecryptIgnore decryptIgnore = AnnotationUtils.findAnnotation(method, DecryptIgnore.class);
+                    if (decryptIgnore != null) {
+                    	String uri = decryptIgnore.value();
+                    	if (!StringUtils.hasText(uri)) {
+                    		uri = getApiUri(clz, method);
+						}
+                        logger.debug("DecryptIgnore URI: {}", uri);
+                        requestDecyptUriIgnoreList.add(uri);
                     }
                 }
             }

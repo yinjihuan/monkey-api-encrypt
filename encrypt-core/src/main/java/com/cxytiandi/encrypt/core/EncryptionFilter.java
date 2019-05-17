@@ -84,12 +84,24 @@ public class EncryptionFilter implements Filter {
 		
 		boolean decryptionStatus = this.contains(encryptionConfig.getRequestDecyptUriList(), uri, req.getMethod());
 		boolean encryptionStatus = this.contains(encryptionConfig.getResponseEncryptUriList(), uri, req.getMethod());
+		boolean decryptionIgnoreStatus = this.contains(encryptionConfig.getRequestDecyptUriIgnoreList(), uri, req.getMethod());
+		boolean encryptionIgnoreStatus = this.contains(encryptionConfig.getResponseEncryptUriIgnoreList(), uri, req.getMethod());
 		
 		// 没有配置具体加解密的URI默认全部都开启加解密
 		if (encryptionConfig.getRequestDecyptUriList().size() == 0 
 				&& encryptionConfig.getResponseEncryptUriList().size() == 0) {
 			decryptionStatus = true;
 			encryptionStatus = true;
+		}
+		
+		// 接口在忽略加密列表中
+		if (encryptionIgnoreStatus) {
+			encryptionStatus = false;
+		}
+		
+		// 接口在忽略解密列表中
+		if (decryptionIgnoreStatus) {
+			decryptionStatus = false;
 		}
 		
 		// 没有加解密操作
