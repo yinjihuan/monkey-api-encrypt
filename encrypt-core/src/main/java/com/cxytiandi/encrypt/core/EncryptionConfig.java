@@ -152,6 +152,10 @@ public class EncryptionConfig {
 	}
 
 	public List<String> getResponseEncryptUriIgnoreList() {
+		// 配置了注解则用注解获取的URI
+		if (ApiEncryptDataInit.responseEncryptUriIgnoreList.size() > 0) {
+			return ApiEncryptDataInit.responseEncryptUriIgnoreList;
+		}
 		return responseEncryptUriIgnoreList;
 	}
 
@@ -160,6 +164,10 @@ public class EncryptionConfig {
 	}
 
 	public List<String> getRequestDecyptUriIgnoreList() {
+		// 配置了注解则用注解获取的URI
+		if (ApiEncryptDataInit.requestDecyptUriIgnoreList.size() > 0) {
+			return ApiEncryptDataInit.requestDecyptUriIgnoreList;
+		}
 		return requestDecyptUriIgnoreList;
 	}
 

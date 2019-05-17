@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cxytiandi.encrypt.springboot.annotation.Decrypt;
 import com.cxytiandi.encrypt.springboot.annotation.DecryptIgnore;
 import com.cxytiandi.encrypt.springboot.annotation.Encrypt;
+import com.cxytiandi.encrypt.springboot.annotation.EncryptIgnore;
 import com.cxytiandi.encrypt_springboot_example.dto.UserDto;
 import com.cxytiandi.encrypt_springboot_example.dto.UserXmlDto;
 
@@ -34,6 +35,7 @@ public class UserController {
 	//@Encrypt
 	//@Decrypt
 	@DecryptIgnore
+	@EncryptIgnore
 	@PostMapping("/save")
 	public UserDto save(@RequestBody UserDto dto) {
 		System.err.println(dto.getId() + "\t" + dto.getName());
