@@ -27,14 +27,6 @@ monkey-api-encrypt是对基于Servlet的Web框架API请求进行统一加解密�
 
 - [常见问题](https://github.com/yinjihuan/monkey-api-encrypt/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)
 
-## 注意
-
-spring-boot-starter-encrypt是最开始的1.0版本，基于Spring MVC机制实现的，像Zuul中就使用不了，代码留着可以给大家参考下。
-
-示列：https://github.com/yinjihuan/spring-boot-starter-encrypt-example
-
-原理讲解：http://cxytiandi.com/blog/detail/20235
-
 
 # 作者
 - 尹吉欢 1304489315@qq.com
