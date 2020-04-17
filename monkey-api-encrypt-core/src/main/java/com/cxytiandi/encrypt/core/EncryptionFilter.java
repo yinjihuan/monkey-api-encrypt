@@ -135,9 +135,11 @@ public class EncryptionFilter implements Filter {
 		// 同时需要加解密
 		if (encryptionStatus && decryptionStatus) {
 			chain.doFilter(reqestWrapper, responseWrapper);
-		} else if (encryptionStatus) { //只需要响应加密
+		} else if (encryptionStatus) {
+			//只需要响应加密
 			chain.doFilter(req, responseWrapper);
-		} else if (decryptionStatus) { //只需要请求解密
+		} else if (decryptionStatus) {
+			//只需要请求解密
 			chain.doFilter(reqestWrapper, resp);
 		}
 		
