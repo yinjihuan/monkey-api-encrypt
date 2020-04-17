@@ -1,7 +1,10 @@
 package com.cxytiandi.encrypt.core;
 
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -122,6 +125,18 @@ public class EncryptionFilter implements Filter {
 				String decyptRequestData = encryptAlgorithm.decrypt(requestData, encryptionConfig.getKey());
 				logger.debug("DecyptRequestData: {}", decyptRequestData);
 				reqestWrapper.setRequestData(decyptRequestData);
+
+				// url参数解密
+				Map<String, String> paramMap = new HashMap<>();
+				Enumeration<String> parameterNames = request.getParameterNames();
+				while (parameterNames.hasMoreElements()) {
+					String paramName = parameterNames.nextElement();
+					String paramValue = req.getParameter(paramName);
+					String decryptParamValue = encryptAlgorithm.decrypt(paramValue, encryptionConfig.getKey());
+					paramMap.put(paramName, decryptParamValue);
+				}
+				reqestWrapper.setParamMap(paramMap);
+
 			} catch (Exception e) {
 				logger.error("请求数据解密失败", e);
 				throw new RuntimeException(e);

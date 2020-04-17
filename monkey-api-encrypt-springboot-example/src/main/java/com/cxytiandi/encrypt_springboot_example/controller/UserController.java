@@ -19,7 +19,8 @@ public class UserController {
 
 	//@Encrypt
 	@GetMapping("/encryptStr")
-	public String encryptStr() {
+	public String encryptStr(String name) {
+		System.out.println(name);
 		return "加密字符串";
 	}
 	
