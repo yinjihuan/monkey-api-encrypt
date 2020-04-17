@@ -157,7 +157,7 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
             
         } 
         
-        if (StringUtils.hasText(this.contextPath)) {
+        if (StringUtils.hasText(this.contextPath) && !"/".equals(this.contextPath)) {
         	 return methodType + this.contextPath + uri.toString();
 		}
         
