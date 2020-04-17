@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import com.cxytiandi.encrypt.springboot.init.ApiEncryptDataInit;
+import org.springframework.util.CollectionUtils;
 
 /**
  * 加解密配置类
@@ -174,5 +175,15 @@ public class EncryptionConfig {
 	public void setRequestDecyptUriIgnoreList(List<String> requestDecyptUriIgnoreList) {
 		this.requestDecyptUriIgnoreList = requestDecyptUriIgnoreList;
 	}
+
+	public List<String> getRequestDecyptParams(String uri) {
+		List<String> params = ApiEncryptDataInit.requestDecyptParamMap.get(uri);
+		if (CollectionUtils.isEmpty(params)) {
+			return new ArrayList<>();
+		}
+
+		return params;
+	}
+
 	
 }

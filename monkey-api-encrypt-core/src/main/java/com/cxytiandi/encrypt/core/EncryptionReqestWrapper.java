@@ -71,7 +71,9 @@ public class EncryptionReqestWrapper extends HttpServletRequestWrapper  {
 
     @Override
     public String[] getParameterValues(String name) {
-	    return new String[] { getParameter(name) };
+	    if (paramMap.containsKey(name)) {
+            return new String[] { getParameter(name) };
+        }
+        return super.getParameterValues(name);
     }
-
 }
