@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import com.cxytiandi.encrypt.algorithm.AesEncryptAlgorithm;
 import com.cxytiandi.encrypt.algorithm.EncryptAlgorithm;
+import org.springframework.util.CollectionUtils;
 
 /**
  * 数据加解密过滤器
@@ -91,8 +92,8 @@ public class EncryptionFilter implements Filter {
 		boolean encryptionIgnoreStatus = this.contains(encryptionConfig.getResponseEncryptUriIgnoreList(), uri, req.getMethod());
 		
 		// 没有配置具体加解密的URI默认全部都开启加解密
-		if (encryptionConfig.getRequestDecyptUriList().size() == 0 
-				&& encryptionConfig.getResponseEncryptUriList().size() == 0) {
+		if (CollectionUtils.isEmpty(encryptionConfig.getRequestDecyptUriList())
+				&& CollectionUtils.isEmpty(encryptionConfig.getResponseEncryptUriList())) {
 			decryptionStatus = true;
 			encryptionStatus = true;
 		}
@@ -112,38 +113,13 @@ public class EncryptionFilter implements Filter {
 			chain.doFilter(req, resp);
 			return;
 		}
-		
-		
+
 		EncryptionResponseWrapper responseWrapper = null;
 		EncryptionReqestWrapper reqestWrapper = null;
 		// 配置了需要解密才处理
 		if (decryptionStatus) {
 			reqestWrapper = new EncryptionReqestWrapper(req);
-			String requestData = reqestWrapper.getRequestData();
-			logger.debug("RequestData: {}", requestData);
-			try {
-				String decyptRequestData = encryptAlgorithm.decrypt(requestData, encryptionConfig.getKey());
-				logger.debug("DecyptRequestData: {}", decyptRequestData);
-				reqestWrapper.setRequestData(decyptRequestData);
-
-				// url参数解密
-				Map<String, String> paramMap = new HashMap<>();
-				Enumeration<String> parameterNames = request.getParameterNames();
-				while (parameterNames.hasMoreElements()) {
-					String paramName = parameterNames.nextElement();
-					String prefixUri = req.getMethod().toLowerCase() + ":" + uri;
-					if (encryptionConfig.getRequestDecyptParams(prefixUri).contains(paramName)) {
-						String paramValue = req.getParameter(paramName);
-						String decryptParamValue = encryptAlgorithm.decrypt(paramValue, encryptionConfig.getKey());
-						paramMap.put(paramName, decryptParamValue);
-					}
-				}
-				reqestWrapper.setParamMap(paramMap);
-
-			} catch (Exception e) {
-				logger.error("请求数据解密失败", e);
-				throw new RuntimeException(e);
-			}
+			processDecryption(reqestWrapper, req);
 		}
 		
 		if (encryptionStatus) {
@@ -164,27 +140,69 @@ public class EncryptionFilter implements Filter {
 		// 配置了需要加密才处理
 		if (encryptionStatus) {
 			String responeData = responseWrapper.getResponseData();
-			logger.debug("ResponeData: {}", responeData);
-			ServletOutputStream out = null;
-			try {
-				responeData = encryptAlgorithm.encrypt(responeData, encryptionConfig.getKey());
-				logger.debug("EncryptResponeData: {}", responeData);
-				response.setContentLength(responeData.length());
-				response.setCharacterEncoding(encryptionConfig.getResponseCharset());
-		        out = response.getOutputStream();
-		        out.write(responeData.getBytes(encryptionConfig.getResponseCharset()));
-			} catch (Exception e) {
-				logger.error("响应数据加密失败", e);
-				throw new RuntimeException(e);
-			} finally {
-				if (out != null) {
-					out.flush();
-				    out.close();
-				}
-			}
-			
+			writeEncryptContent(responeData, response);
 		} 
 		
+	}
+
+	/**
+	 * 请求解密处理
+	 * @param reqestWrapper
+	 * @param req
+	 */
+	private void processDecryption(EncryptionReqestWrapper reqestWrapper, HttpServletRequest req) {
+		String requestData = reqestWrapper.getRequestData();
+		String uri = req.getRequestURI();
+		logger.debug("RequestData: {}", requestData);
+		try {
+			String decyptRequestData = encryptAlgorithm.decrypt(requestData, encryptionConfig.getKey());
+			logger.debug("DecyptRequestData: {}", decyptRequestData);
+			reqestWrapper.setRequestData(decyptRequestData);
+
+			// url参数解密
+			Map<String, String> paramMap = new HashMap<>();
+			Enumeration<String> parameterNames = req.getParameterNames();
+			while (parameterNames.hasMoreElements()) {
+				String paramName = parameterNames.nextElement();
+				String prefixUri = req.getMethod().toLowerCase() + ":" + uri;
+				if (encryptionConfig.getRequestDecyptParams(prefixUri).contains(paramName)) {
+					String paramValue = req.getParameter(paramName);
+					String decryptParamValue = encryptAlgorithm.decrypt(paramValue, encryptionConfig.getKey());
+					paramMap.put(paramName, decryptParamValue);
+				}
+			}
+			reqestWrapper.setParamMap(paramMap);
+		} catch (Exception e) {
+			logger.error("请求数据解密失败", e);
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 输出加密内容
+	 * @param responeData
+	 * @param response
+	 * @throws IOException
+	 */
+	private void writeEncryptContent(String responeData, ServletResponse response) throws IOException {
+		logger.debug("ResponeData: {}", responeData);
+		ServletOutputStream out = null;
+		try {
+			responeData = encryptAlgorithm.encrypt(responeData, encryptionConfig.getKey());
+			logger.debug("EncryptResponeData: {}", responeData);
+			response.setContentLength(responeData.length());
+			response.setCharacterEncoding(encryptionConfig.getResponseCharset());
+			out = response.getOutputStream();
+			out.write(responeData.getBytes(encryptionConfig.getResponseCharset()));
+		} catch (Exception e) {
+			logger.error("响应数据加密失败", e);
+			throw new RuntimeException(e);
+		} finally {
+			if (out != null) {
+				out.flush();
+				out.close();
+			}
+		}
 	}
 
 	private boolean contains(List<String> list, String uri, String methodType) {

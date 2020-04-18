@@ -24,8 +24,15 @@ public class UserController {
 		System.out.println(name);
 		return "加密字符串";
 	}
+
+
+	@PostMapping("/encryptStr")
+	public String encryptStr2(String name) {
+		System.out.println(name);
+		return "加密字符串";
+	}
 	
-	//@Encrypt
+	@Encrypt
 	@GetMapping("/encryptEntity")
 	public UserDto encryptEntity() {
 		UserDto dto = new UserDto();
@@ -34,10 +41,10 @@ public class UserController {
 		return dto;
 	}
 	
-	//@Encrypt
-	//@Decrypt
-	@DecryptIgnore
-	@EncryptIgnore
+	@Encrypt
+	@Decrypt
+	//@DecryptIgnore
+	//@EncryptIgnore
 	@PostMapping("/save")
 	public UserDto save(@RequestBody UserDto dto) {
 		System.err.println(dto.getId() + "\t" + dto.getName());

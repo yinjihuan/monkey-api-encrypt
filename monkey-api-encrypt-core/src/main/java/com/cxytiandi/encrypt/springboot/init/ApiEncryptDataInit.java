@@ -74,9 +74,7 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
     @Override
     public void setApplicationContext(ApplicationContext ctx) throws BeansException {
     	this.contextPath = ctx.getEnvironment().getProperty("server.servlet.context-path");
-        Map<String, Object> beanMap = ctx.getBeansWithAnnotation(RestController.class);
-        initData(beanMap);
-        beanMap = ctx.getBeansWithAnnotation(Controller.class);
+		Map<String, Object> beanMap = ctx.getBeansWithAnnotation(Controller.class);
         initData(beanMap);
         initRequestDecyptParam(ctx.getEnvironment());
     }
