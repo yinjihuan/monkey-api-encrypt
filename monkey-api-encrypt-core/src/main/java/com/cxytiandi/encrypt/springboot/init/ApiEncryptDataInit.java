@@ -94,7 +94,7 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
 						String[] keys = name.split("\\.");
 						String key = keys[keys.length - 1];
 						String property = environment.getProperty(name);
-						requestDecyptParamMap.put(key, Arrays.asList(property.split(",")));
+						requestDecyptParamMap.put(key.replace("$", ":"), Arrays.asList(property.split(",")));
 					}
 				}
 			}
@@ -123,6 +123,12 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
                     	if (!StringUtils.hasText(uri)) {
                     		uri = getApiUri(clz, method);
 						}
+
+                    	String decyptParam = decrypt.decyptParam();
+						if (StringUtils.hasText(decyptParam)) {
+							requestDecyptParamMap.put(uri, Arrays.asList(decyptParam.split(",")));
+						}
+
                         logger.debug("Decrypt URI: {}", uri);
                         requestDecyptUriList.add(uri);
                     }

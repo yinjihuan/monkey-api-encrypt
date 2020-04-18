@@ -131,7 +131,8 @@ public class EncryptionFilter implements Filter {
 				Enumeration<String> parameterNames = request.getParameterNames();
 				while (parameterNames.hasMoreElements()) {
 					String paramName = parameterNames.nextElement();
-					if (encryptionConfig.getRequestDecyptParams(uri).contains(paramName)) {
+					String prefixUri = req.getMethod().toLowerCase() + ":" + uri;
+					if (encryptionConfig.getRequestDecyptParams(prefixUri).contains(paramName)) {
 						String paramValue = req.getParameter(paramName);
 						String decryptParamValue = encryptAlgorithm.decrypt(paramValue, encryptionConfig.getKey());
 						paramMap.put(paramName, decryptParamValue);

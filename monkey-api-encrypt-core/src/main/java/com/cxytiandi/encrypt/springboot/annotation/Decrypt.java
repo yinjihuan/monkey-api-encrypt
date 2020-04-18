@@ -22,5 +22,11 @@ import java.lang.annotation.Target;
 public @interface Decrypt {
 
 	String value() default "";
+
+	/**
+	 * Url参数解密，多个参数用因为逗号分隔，比如 name,age
+	 * @return
+	 */
+	String decyptParam() default "";
 	
 }

@@ -18,6 +18,7 @@ import com.cxytiandi.encrypt_springboot_example.dto.UserXmlDto;
 public class UserController {
 
 	//@Encrypt
+	@Decrypt(decyptParam = "age,name")
 	@GetMapping("/encryptStr")
 	public String encryptStr(String name) {
 		System.out.println(name);
