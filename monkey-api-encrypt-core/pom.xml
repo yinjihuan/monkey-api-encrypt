@@ -1,0 +1,166 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.cxytiandi</groupId>
+	<artifactId>monkey-api-encrypt-core</artifactId>
+	<version>1.2.RELEASE</version>
+	<packaging>jar</packaging>
+
+	<name>monkey-api-encrypt-core</name>
+	<url>http://cxytiandi.com</url>
+	<description>
+		API encryption and decryption framework
+	</description>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<!-- 开源签名证书 -->
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<!-- 仓库信息 -->
+	<scm>
+		<connection>scm:git:git@github.com:yinjihuan/monkey-api-encrypt.git</connection>
+		<developerConnection>scm:git:git@github.com:yinjihuan/monkey-api-encrypt.git
+		</developerConnection>
+		<url>https://github.com/yinjihuan/monkey-api-encrypt/tree/master</url>
+	</scm>
+
+
+	<!-- 开发人员信息 -->
+	<developers>
+		<developer>
+			<name>yinjihuan</name>
+			<email>jihuan900@126.com</email>
+			<organization>https://github.com/yinjihuan</organization>
+			<timezone>+8</timezone>
+		</developer>
+	</developers>
+
+	<!-- 发布管理信息 -->
+	<distributionManagement>
+		<repository>
+			<!-- 这里的id必须要和全局配置中的release id 一致 -->
+			<id>sonatype_releases</id>
+			<name>Nexus Release Repository</name>
+			<!-- 这里就是在创建issue成功后，对方回复的release发布地址-->
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		</repository>
+		<snapshotRepository>
+			<!-- 这里的id必须要和全局配置中的snapshot id 一致 -->
+			<id>sonatype_snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<!-- 这里就是在创建issue成功后，对方回复的snapshot发布地址-->
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.10</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.21</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>5.0.16.RELEASE</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>5.0.16.RELEASE</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+			<version>2.0.6.RELEASE</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<!-- 这里的id必须要和全局配置中的release id 一致 -->
+					<serverId>sonatype_releases</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<!-- 如果希望发布后自动执行close和release操作，此处可以调整为true -->
+					<autoReleaseAfterClose>false</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+
+			<!-- 生成java source.jar -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- 生成asc 校验文件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<!-- 必须和配置中的gpg校验id一致 -->
+						<id>gpg</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
