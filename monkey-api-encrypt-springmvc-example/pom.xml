@@ -51,7 +51,7 @@
 		<dependency>
 		  <groupId>com.cxytiandi</groupId>
 		  <artifactId>monkey-api-encrypt-core</artifactId>
-		  <version>1.1-SNAPSHOT</version>
+		  <version>1.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -60,12 +60,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<repositories>
-	  <repository>
-	     <id>jitpack.io</id>
-	     <url>https://jitpack.io</url>
-	  </repository>
-	</repositories>
+
 	<build>
 		<finalName>encrypt-springmvc-example</finalName>
 		<plugins>

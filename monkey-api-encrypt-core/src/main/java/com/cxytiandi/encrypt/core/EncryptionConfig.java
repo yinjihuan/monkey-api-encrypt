@@ -13,10 +13,6 @@ import org.springframework.util.CollectionUtils;
  * 
  * @author yinjihuan
  * 
- * @date 2019-01-12
- * 
- * @about http://cxytiandi.com/about
- *
  */
 @ConfigurationProperties(prefix = "spring.encrypt")
 public class EncryptionConfig {

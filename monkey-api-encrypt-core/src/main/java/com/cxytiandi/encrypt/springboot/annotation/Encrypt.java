@@ -11,9 +11,8 @@ import java.lang.annotation.Target;
  * 
  * <p>加了此注解的接口将进行数据加密操作<p>
  * 
- * @author yinjihuan
+ * @author yinjihuan http://cxytiandi.com/about
  *
- * @about http://cxytiandi.com/about
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

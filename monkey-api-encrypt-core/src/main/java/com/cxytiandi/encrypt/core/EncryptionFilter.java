@@ -27,10 +27,6 @@ import org.springframework.util.CollectionUtils;
  * 数据加解密过滤器
  * 
  * @author yinjihuan
- * 
- * @date 2019-01-12
- * 
- * @about http://cxytiandi.com/about
  *
  */
 public class EncryptionFilter implements Filter {

@@ -13,21 +13,10 @@ import com.cxytiandi.encrypt.springboot.autoconfigure.EncryptAutoConfiguration;
 /**
  * 启用加密Starter
  * 
- * <p>在Spring Boot启动类上加上此注解<p>
+ * <p>在Spring Boot启动类上加上此注解
  * 
- * <pre class="code">
- * &#064;SpringBootApplication
- * &#064;EnableEncrypt
- * public class App {
- *     public static void main(String[] args) {
- *         SpringApplication.run(App.class, args);
- *     }
- * }
- * <pre>
- * 
- * @author yinjihuan
+ * @author yinjihuan http://cxytiandi.com/about
  *
- * @about http://cxytiandi.com/about
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

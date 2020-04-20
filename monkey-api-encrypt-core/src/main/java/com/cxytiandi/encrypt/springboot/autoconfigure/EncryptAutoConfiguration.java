@@ -18,8 +18,6 @@ import com.cxytiandi.encrypt.springboot.init.ApiEncryptDataInit;
  * 
  * @author yinjihuan
  * 
- * @about http://cxytiandi.com/about
- *
  */
 @Configuration
 @EnableAutoConfiguration
@@ -34,7 +32,7 @@ public class EncryptAutoConfiguration {
 	
 	/**
 	 * 不要用泛型注册Filter,泛型在Spring Boot 2.x版本中才有
-	 * @return
+	 * @return 过滤器
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Bean

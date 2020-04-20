@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.cxytiandi.encrypt.springboot.HttpMethodTypePrefixConstant;
 import com.cxytiandi.encrypt.springboot.annotation.Decrypt;
 import com.cxytiandi.encrypt.springboot.annotation.DecryptIgnore;
@@ -65,7 +63,7 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
 	 * Url参数需要解密的配置
 	 * 比如：/user/list?name=加密内容<br>
 	 * 格式：Key API路径  Value 需要解密的字段
-	 * 示列：/user/list => [name,age]
+	 * 示列：/user/list  [name,age]
 	 */
 	public static Map<String, List<String>> requestDecyptParamMap = new HashMap<>();
 

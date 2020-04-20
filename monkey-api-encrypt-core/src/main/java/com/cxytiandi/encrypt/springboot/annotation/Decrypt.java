@@ -10,11 +10,8 @@ import java.lang.annotation.Target;
  * 解密注解
  * 
  * <p>加了此注解的接口将进行数据解密操作<p>
- * 
- * @author yinjihuan
- * 
- * @about http://cxytiandi.com/about
  *
+ * @author yinjihuan http://cxytiandi.com/about
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -25,7 +22,7 @@ public @interface Decrypt {
 
 	/**
 	 * Url参数解密，多个参数用因为逗号分隔，比如 name,age
-	 * @return
+	 * @return 解密参数信息
 	 */
 	String decyptParam() default "";
 	

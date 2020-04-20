@@ -7,10 +7,6 @@ import com.cxytiandi.encrypt.util.AesEncryptUtils;
  * 
  * @author yinjihuan
  * 
- * @date 2019-01-12
- * 
- * @about http://cxytiandi.com/about
- *
  */
 public class AesEncryptAlgorithm implements EncryptAlgorithm {
 

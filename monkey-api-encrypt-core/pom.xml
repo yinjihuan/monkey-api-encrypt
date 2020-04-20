@@ -5,15 +5,63 @@
 
 	<groupId>com.cxytiandi</groupId>
 	<artifactId>monkey-api-encrypt-core</artifactId>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.2.RELEASE</version>
 	<packaging>jar</packaging>
 
 	<name>monkey-api-encrypt-core</name>
-	<url>http://maven.apache.org</url>
-
+	<url>http://cxytiandi.com</url>
+	<description>
+		API encryption and decryption framework
+	</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
+	<!-- 开源签名证书 -->
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<!-- 仓库信息 -->
+	<scm>
+		<connection>scm:git:git@github.com:yinjihuan/monkey-api-encrypt.git</connection>
+		<developerConnection>scm:git:git@github.com:yinjihuan/monkey-api-encrypt.git
+		</developerConnection>
+		<url>https://github.com/yinjihuan/monkey-api-encrypt/tree/master</url>
+	</scm>
+
+
+	<!-- 开发人员信息 -->
+	<developers>
+		<developer>
+			<name>yinjihuan</name>
+			<email>jihuan900@126.com</email>
+			<organization>https://github.com/yinjihuan</organization>
+			<timezone>+8</timezone>
+		</developer>
+	</developers>
+
+	<!-- 发布管理信息 -->
+	<distributionManagement>
+		<repository>
+			<!-- 这里的id必须要和全局配置中的release id 一致 -->
+			<id>sonatype_releases</id>
+			<name>Nexus Release Repository</name>
+			<!-- 这里就是在创建issue成功后，对方回复的release发布地址-->
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		</repository>
+		<snapshotRepository>
+			<!-- 这里的id必须要和全局配置中的snapshot id 一致 -->
+			<id>sonatype_snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<!-- 这里就是在创建issue成功后，对方回复的snapshot发布地址-->
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<dependencies>
 		<dependency>
@@ -56,6 +104,7 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -67,20 +116,51 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.1</version>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
 				<configuration>
-					<attach>true</attach>
+					<!-- 这里的id必须要和全局配置中的release id 一致 -->
+					<serverId>sonatype_releases</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<!-- 如果希望发布后自动执行close和release操作，此处可以调整为true -->
+					<autoReleaseAfterClose>false</autoReleaseAfterClose>
 				</configuration>
+			</plugin>
+
+			<!-- 生成java source.jar -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
 				<executions>
 					<execution>
-						<phase>compile</phase>
+						<id>attach-sources</id>
 						<goals>
-							<goal>jar</goal>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- 生成asc 校验文件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<!-- 必须和配置中的gpg校验id一致 -->
+						<id>gpg</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
+
 </project>
