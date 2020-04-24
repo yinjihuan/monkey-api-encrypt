@@ -20,7 +20,7 @@ public class ApiEncryptionFilter implements Filter {
 	public void init(FilterConfig filterConfig) throws ServletException {
 		EncryptionConfig config = new EncryptionConfig();
 		config.setKey("abcdef0123456789");
-		config.setRequestDecyptUriList(Arrays.asList("/save"));
+		config.setRequestDecryptUriList(Arrays.asList("/save"));
 		config.setResponseEncryptUriList(Arrays.asList("/encryptEntity"));
 		filter = new EncryptionFilter(config);
 	}

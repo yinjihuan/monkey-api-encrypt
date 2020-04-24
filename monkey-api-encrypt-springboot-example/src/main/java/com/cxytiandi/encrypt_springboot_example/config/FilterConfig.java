@@ -4,11 +4,9 @@ import java.util.Arrays;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import com.cxytiandi.encrypt.core.EncryptionConfig;
 import com.cxytiandi.encrypt.core.EncryptionFilter;
-import com.cxytiandi.encrypt_springboot_example.algorithm.RsaEncryptAlgorithm;
 
 //@Configuration
 public class FilterConfig {
@@ -17,8 +15,8 @@ public class FilterConfig {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public FilterRegistrationBean filterRegistration() {
     	EncryptionConfig config = new EncryptionConfig();
-    	config.setKey("abcdef0123456789");
-    	config.setRequestDecyptUriList(Arrays.asList("/save", "/decryptEntityXml"));
+    	config.setKey("d86d7bab3d6ac01ad9dc6a897652f2d2");
+    	config.setRequestDecryptUriList(Arrays.asList("/save", "/decryptEntityXml"));
     	config.setResponseEncryptUriList(Arrays.asList("/encryptStr", "/encryptEntity", "/save", "/encryptEntityXml", "/decryptEntityXml"));
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(new EncryptionFilter(config));

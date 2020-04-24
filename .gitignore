@@ -30,3 +30,5 @@ target/
 # system ignore
 .DS_Store
 Thumbs.db
+/monkey-api-encrypt-core/src/main/resources/rebel.xml
+/monkey-api-encrypt-springboot-example/src/main/resources/rebel.xml

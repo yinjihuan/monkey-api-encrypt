@@ -34,7 +34,7 @@ public class EncryptionConfig {
 	 * 比如：/user/list<br>
 	 * 不支持@PathVariable格式的URI
 	 */
-	private List<String> requestDecyptUriList = new ArrayList<String>();
+	private List<String> requestDecryptUriList = new ArrayList<String>();
 	
 	/**
 	 * 忽略加密的接口URI<br>
@@ -48,7 +48,7 @@ public class EncryptionConfig {
 	 * 比如：/user/list<br>
 	 * 不支持@PathVariable格式的URI
 	 */
-	private List<String> requestDecyptUriIgnoreList = new ArrayList<String>();
+	private List<String> requestDecryptUriIgnoreList = new ArrayList<String>();
 
 	/**
 	 * 响应数据编码
@@ -74,12 +74,12 @@ public class EncryptionConfig {
 		super();
 	}
 	
-	public EncryptionConfig(String key, List<String> responseEncryptUriList, List<String> requestDecyptUriList,
+	public EncryptionConfig(String key, List<String> responseEncryptUriList, List<String> requestDecryptUriList,
 			String responseCharset, boolean debug) {
 		super();
 		this.key = key;
 		this.responseEncryptUriList = responseEncryptUriList;
-		this.requestDecyptUriList = requestDecyptUriList;
+		this.requestDecryptUriList = requestDecryptUriList;
 		this.responseCharset = responseCharset;
 		this.debug = debug;
 	}
@@ -104,16 +104,16 @@ public class EncryptionConfig {
 		this.responseEncryptUriList = responseEncryptUriList;
 	}
 
-	public List<String> getRequestDecyptUriList() {
+	public List<String> getRequestDecryptUriList() {
 		// 配置了注解则用注解获取的URI
-		if (ApiEncryptDataInit.requestDecyptUriList.size() > 0) {
-			return ApiEncryptDataInit.requestDecyptUriList;
+		if (ApiEncryptDataInit.requestDecryptUriList.size() > 0) {
+			return ApiEncryptDataInit.requestDecryptUriList;
 		}
-		return requestDecyptUriList;
+		return requestDecryptUriList;
 	}
 
-	public void setRequestDecyptUriList(List<String> requestDecyptUriList) {
-		this.requestDecyptUriList = requestDecyptUriList;
+	public void setRequestDecryptUriList(List<String> requestDecryptUriList) {
+		this.requestDecryptUriList = requestDecryptUriList;
 	}
 
 	public String getResponseCharset() {
@@ -160,20 +160,20 @@ public class EncryptionConfig {
 		this.responseEncryptUriIgnoreList = responseEncryptUriIgnoreList;
 	}
 
-	public List<String> getRequestDecyptUriIgnoreList() {
+	public List<String> getRequestDecryptUriIgnoreList() {
 		// 配置了注解则用注解获取的URI
-		if (ApiEncryptDataInit.requestDecyptUriIgnoreList.size() > 0) {
-			return ApiEncryptDataInit.requestDecyptUriIgnoreList;
+		if (ApiEncryptDataInit.requestDecryptUriIgnoreList.size() > 0) {
+			return ApiEncryptDataInit.requestDecryptUriIgnoreList;
 		}
-		return requestDecyptUriIgnoreList;
+		return requestDecryptUriIgnoreList;
 	}
 
-	public void setRequestDecyptUriIgnoreList(List<String> requestDecyptUriIgnoreList) {
-		this.requestDecyptUriIgnoreList = requestDecyptUriIgnoreList;
+	public void setRequestDecryptUriIgnoreList(List<String> requestDecyptUriIgnoreList) {
+		this.requestDecryptUriIgnoreList = requestDecyptUriIgnoreList;
 	}
 
-	public List<String> getRequestDecyptParams(String uri) {
-		List<String> params = ApiEncryptDataInit.requestDecyptParamMap.get(uri);
+	public List<String> getRequestDecryptParams(String uri) {
+		List<String> params = ApiEncryptDataInit.requestDecryptParamMap.get(uri);
 		if (CollectionUtils.isEmpty(params)) {
 			return new ArrayList<>();
 		}

@@ -43,7 +43,7 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
 	 * 比如：/user/list<br>
 	 * 不支持@PathVariable格式的URI
 	 */
-	public static List<String> requestDecyptUriList = new ArrayList<>();
+	public static List<String> requestDecryptUriList = new ArrayList<>();
     
 	/**
 	 * 忽略加密的接口URI<br>
@@ -57,7 +57,7 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
 	 * 比如：/user/list<br>
 	 * 不支持@PathVariable格式的URI
 	 */
-	public static List<String> requestDecyptUriIgnoreList = new ArrayList<String>();
+	public static List<String> requestDecryptUriIgnoreList = new ArrayList<String>();
 
 	/**
 	 * Url参数需要解密的配置
@@ -65,7 +65,7 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
 	 * 格式：Key API路径  Value 需要解密的字段
 	 * 示列：/user/list  [name,age]
 	 */
-	public static Map<String, List<String>> requestDecyptParamMap = new HashMap<>();
+	public static Map<String, List<String>> requestDecryptParamMap = new HashMap<>();
 
 	private String contextPath;
 	
@@ -90,7 +90,7 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
 						String[] keys = name.split("\\.");
 						String key = keys[keys.length - 1];
 						String property = environment.getProperty(name);
-						requestDecyptParamMap.put(key.replace("$", ":"), Arrays.asList(property.split(",")));
+						requestDecryptParamMap.put(key.replace("$", ":"), Arrays.asList(property.split(",")));
 					}
 				}
 			}
@@ -122,11 +122,11 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
 
                     	String decyptParam = decrypt.decyptParam();
 						if (StringUtils.hasText(decyptParam)) {
-							requestDecyptParamMap.put(uri, Arrays.asList(decyptParam.split(",")));
+							requestDecryptParamMap.put(uri, Arrays.asList(decyptParam.split(",")));
 						}
 
                         logger.debug("Decrypt URI: {}", uri);
-                        requestDecyptUriList.add(uri);
+                        requestDecryptUriList.add(uri);
                     }
                     EncryptIgnore encryptIgnore = AnnotationUtils.findAnnotation(method, EncryptIgnore.class);
                 	if (encryptIgnore != null) {
@@ -145,7 +145,7 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
                     		uri = getApiUri(clz, method);
 						}
                         logger.debug("DecryptIgnore URI: {}", uri);
-                        requestDecyptUriIgnoreList.add(uri);
+                        requestDecryptUriIgnoreList.add(uri);
                     }
                 }
             }
@@ -195,7 +195,7 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
 		}
         
         return methodType + uri.toString();
-    }
+}
     
     private String formatUri(String uri) {
     	if (uri.startsWith("/")) {
