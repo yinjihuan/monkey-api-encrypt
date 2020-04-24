@@ -234,8 +234,10 @@ public class AesEncryptUtils {
         byte[] bytes = AesEncryptUtils.initKey();
 
         // 使用密钥生成器 KeyGenerator 生成的 16 字节随机密钥的 hex 字符串，使用时解 hex 得到二进制密钥
-        String aesKey = Hex.encodeHexString(bytes);
-        System.out.println(aesKey);
+        //String aesKey = Hex.encodeHexString(bytes);
+        //System.out.println(aesKey);
+
+        String aesKey = "d86d7bab3d6ac01ad9dc6a897652f2d2";
 
         String content = "你好";
         System.out.println("加密前：" + content);

@@ -15,42 +15,42 @@ import com.cxytiandi.encrypt.springboot.init.ApiEncryptDataInit;
 
 /**
  * 加解密自动配置
- * 
+ *
  * @author yinjihuan
- * 
  */
 @Configuration
 @EnableAutoConfiguration
 @EnableConfigurationProperties(EncryptionConfig.class)
 public class EncryptAutoConfiguration {
 
-	@Autowired
-	private EncryptionConfig encryptionConfig;
-	
-	@Autowired(required=false)
-	private EncryptAlgorithm encryptAlgorithm;
-	
-	/**
-	 * 不要用泛型注册Filter,泛型在Spring Boot 2.x版本中才有
-	 * @return 过滤器
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Bean
+    @Autowired
+    private EncryptionConfig encryptionConfig;
+
+    @Autowired(required = false)
+    private EncryptAlgorithm encryptAlgorithm;
+
+    /**
+     * 不要用泛型注册Filter,泛型在Spring Boot 2.x版本中才有
+     *
+     * @return 过滤器
+     */
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    @Bean
     public FilterRegistrationBean filterRegistration() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
         if (encryptAlgorithm != null) {
-        	registration.setFilter(new EncryptionFilter(encryptionConfig, encryptAlgorithm));
-		} else {
-			registration.setFilter(new EncryptionFilter(encryptionConfig));
-		}
+            registration.setFilter(new EncryptionFilter(encryptionConfig, encryptAlgorithm));
+        } else {
+            registration.setFilter(new EncryptionFilter(encryptionConfig));
+        }
         registration.addUrlPatterns(encryptionConfig.getUrlPatterns());
         registration.setName("EncryptionFilter");
         registration.setOrder(encryptionConfig.getOrder());
         return registration;
     }
-	
-	@Bean
-	public ApiEncryptDataInit apiEncryptDataInit() {
-		return new ApiEncryptDataInit();
-	}
+
+    @Bean
+    public ApiEncryptDataInit apiEncryptDataInit() {
+        return new ApiEncryptDataInit();
+    }
 }

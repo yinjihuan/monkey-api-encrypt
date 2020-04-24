@@ -40,7 +40,7 @@
 		}); 
 	}
 	
-	var key = CryptoJS.enc.Utf8.parse("abcdef0123456789");
+	var key = CryptoJS.enc.Hex.parse("d86d7bab3d6ac01ad9dc6a897652f2d2");
 	function Encrypt(word) {
 		var srcs = CryptoJS.enc.Utf8.parse(word);
 		var encrypted = CryptoJS.AES.encrypt(srcs, key, {
