@@ -1,5 +1,6 @@
 package com.cxytiandi.encrypt.springboot.autoconfigure;
 
+import com.cxytiandi.encrypt.springboot.endpoint.EncryptEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -52,5 +53,10 @@ public class EncryptAutoConfiguration {
     @Bean
     public ApiEncryptDataInit apiEncryptDataInit() {
         return new ApiEncryptDataInit();
+    }
+
+    @Bean
+    public EncryptEndpoint encryptEndpoint() {
+        return new EncryptEndpoint();
     }
 }
