@@ -1,7 +1,10 @@
 package com.cxytiandi.encrypt.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -93,11 +96,7 @@ public class EncryptionConfig {
 	}
 
 	public List<String> getResponseEncryptUriList() {
-		// 配置了注解则用注解获取的URI
-		if (ApiEncryptDataInit.responseEncryptUriList.size() > 0) {
-			return ApiEncryptDataInit.responseEncryptUriList;
-		}
-		return responseEncryptUriList;
+		return Stream.of(responseEncryptUriList, ApiEncryptDataInit.responseEncryptUriList).flatMap(Collection::stream).collect(Collectors.toList());
 	}
 
 	public void setResponseEncryptUriList(List<String> responseEncryptUriList) {
@@ -105,11 +104,7 @@ public class EncryptionConfig {
 	}
 
 	public List<String> getRequestDecryptUriList() {
-		// 配置了注解则用注解获取的URI
-		if (ApiEncryptDataInit.requestDecryptUriList.size() > 0) {
-			return ApiEncryptDataInit.requestDecryptUriList;
-		}
-		return requestDecryptUriList;
+		return Stream.of(requestDecryptUriList, ApiEncryptDataInit.requestDecryptUriList).flatMap(Collection::stream).collect(Collectors.toList());
 	}
 
 	public void setRequestDecryptUriList(List<String> requestDecryptUriList) {
@@ -149,11 +144,8 @@ public class EncryptionConfig {
 	}
 
 	public List<String> getResponseEncryptUriIgnoreList() {
-		// 配置了注解则用注解获取的URI
-		if (ApiEncryptDataInit.responseEncryptUriIgnoreList.size() > 0) {
-			return ApiEncryptDataInit.responseEncryptUriIgnoreList;
-		}
-		return responseEncryptUriIgnoreList;
+		// 配置和注解两种方式合并
+		return Stream.of(responseEncryptUriIgnoreList, ApiEncryptDataInit.responseEncryptUriIgnoreList).flatMap(Collection::stream).collect(Collectors.toList());
 	}
 
 	public void setResponseEncryptUriIgnoreList(List<String> responseEncryptUriIgnoreList) {
@@ -161,11 +153,8 @@ public class EncryptionConfig {
 	}
 
 	public List<String> getRequestDecryptUriIgnoreList() {
-		// 配置了注解则用注解获取的URI
-		if (ApiEncryptDataInit.requestDecryptUriIgnoreList.size() > 0) {
-			return ApiEncryptDataInit.requestDecryptUriIgnoreList;
-		}
-		return requestDecryptUriIgnoreList;
+		// 配置和注解两种方式合并
+		return Stream.of(requestDecryptUriIgnoreList, ApiEncryptDataInit.requestDecryptUriIgnoreList).flatMap(Collection::stream).collect(Collectors.toList());
 	}
 
 	public void setRequestDecryptUriIgnoreList(List<String> requestDecyptUriIgnoreList) {
