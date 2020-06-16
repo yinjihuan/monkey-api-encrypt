@@ -5,7 +5,7 @@
 
 	<groupId>com.cxytiandi</groupId>
 	<artifactId>monkey-api-encrypt-core</artifactId>
-	<version>1.2.RELEASE</version>
+	<version>1.2.1.RELEASE</version>
 	<packaging>jar</packaging>
 
 	<name>monkey-api-encrypt-core</name>
