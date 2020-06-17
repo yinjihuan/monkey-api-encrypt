@@ -184,13 +184,20 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
             uri.append(formatUri(deleteMapping.value()[0]));
             
         } else if (requestMapping != null) {
-        	RequestMethod m = requestMapping.method()[0];
-        	methodType = m.name().toLowerCase() + ":";
+			RequestMethod requestMethod = RequestMethod.GET;
+        	if (requestMapping.method().length > 0) {
+				requestMethod = requestMapping.method()[0];
+			}
+
+        	methodType = requestMethod.name().toLowerCase() + ":";
             uri.append(formatUri(requestMapping.value()[0]));
             
         } 
         
         if (StringUtils.hasText(this.contextPath) && !"/".equals(this.contextPath)) {
+        	if (this.contextPath.endsWith("/")) {
+        		this.contextPath = this.contextPath.substring(0, this.contextPath.length() - 1);
+			}
         	 return methodType + this.contextPath + uri.toString();
 		}
         
