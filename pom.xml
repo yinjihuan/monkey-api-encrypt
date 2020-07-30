@@ -7,12 +7,19 @@
     <groupId>com.cxytiandi</groupId>
     <artifactId>monkey-api-encrypt</artifactId>
     <packaging>pom</packaging>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2.2-SNAPSHOT</version>
 
     <modules>
         <module>monkey-api-encrypt-core</module>
         <module>monkey-api-encrypt-springboot-example</module>
         <module>monkey-api-encrypt-springmvc-example</module>
     </modules>
-    
+
+    <dependencies>
+        <dependency>
+            <groupId>com.cxytiandi</groupId>
+            <artifactId>monkey-api-encrypt-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>
