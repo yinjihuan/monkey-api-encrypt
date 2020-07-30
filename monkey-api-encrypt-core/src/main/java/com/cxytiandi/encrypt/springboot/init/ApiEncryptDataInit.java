@@ -157,7 +157,7 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
         StringBuilder uri = new StringBuilder();
         
         RequestMapping reqMapping = AnnotationUtils.findAnnotation(clz, RequestMapping.class);
-        if (reqMapping != null) {
+        if (reqMapping != null && reqMapping.value() != null && reqMapping.value().length > 0) {
         	uri.append(formatUri(reqMapping.value()[0]));
 		}
         
@@ -167,23 +167,23 @@ public class ApiEncryptDataInit implements ApplicationContextAware {
         PutMapping putMapping = AnnotationUtils.findAnnotation(method, PutMapping.class);
         DeleteMapping deleteMapping = AnnotationUtils.findAnnotation(method, DeleteMapping.class);
         
-        if (getMapping != null) {
+        if (getMapping != null && getMapping.value() != null && getMapping.value().length > 0) {
         	methodType = HttpMethodTypePrefixConstant.GET;
             uri.append(formatUri(getMapping.value()[0]));
             
-        } else if (postMapping != null) {
+        } else if (postMapping != null && postMapping.value() != null && postMapping.value().length > 0) {
         	methodType = HttpMethodTypePrefixConstant.POST;
             uri.append(formatUri(postMapping.value()[0]));
             
-        } else if (putMapping != null) {
+        } else if (putMapping != null && putMapping.value() != null && putMapping.value().length > 0) {
         	methodType = HttpMethodTypePrefixConstant.PUT;
             uri.append(formatUri(putMapping.value()[0]));
             
-        } else if (deleteMapping != null) {
+        } else if (deleteMapping != null && deleteMapping.value() != null && deleteMapping.value().length > 0) {
         	methodType = HttpMethodTypePrefixConstant.DELETE;
             uri.append(formatUri(deleteMapping.value()[0]));
             
-        } else if (requestMapping != null) {
+        } else if (requestMapping != null && requestMapping.value() != null && requestMapping.value().length > 0) {
 			RequestMethod requestMethod = RequestMethod.GET;
         	if (requestMapping.method().length > 0) {
 				requestMethod = requestMapping.method()[0];
