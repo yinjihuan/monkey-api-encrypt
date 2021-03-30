@@ -5,7 +5,7 @@
 	<groupId>com.cxytiandi</groupId>
 	<artifactId>monkey-api-encrypt-springmvc-example</artifactId>
 	<packaging>war</packaging>
-	<version>1.2.2-SNAPSHOT</version>
+	<version>1.2.2.RELEASE</version>
 	<name>monkey-api-encrypt-springmvc-example</name>
 	<url>http://maven.apache.org</url>
 	<properties>
@@ -51,7 +51,7 @@
 		<dependency>
 		  <groupId>com.cxytiandi</groupId>
 		  <artifactId>monkey-api-encrypt-core</artifactId>
-	      <version>1.2.2-SNAPSHOT</version>
+	      <version>1.2.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

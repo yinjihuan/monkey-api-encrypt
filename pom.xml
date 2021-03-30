@@ -7,7 +7,7 @@
     <groupId>com.cxytiandi</groupId>
     <artifactId>monkey-api-encrypt</artifactId>
     <packaging>pom</packaging>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>1.2.2.RELEASE</version>
 
     <modules>
         <module>monkey-api-encrypt-core</module>
