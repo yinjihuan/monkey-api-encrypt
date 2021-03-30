@@ -1,10 +1,7 @@
 package com.cxytiandi.encrypt.core;
 
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -16,14 +13,20 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.cxytiandi.encrypt.util.RequestUriUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cxytiandi.encrypt.algorithm.AesEncryptAlgorithm;
 import com.cxytiandi.encrypt.algorithm.EncryptAlgorithm;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.HandlerExecutionChain;
+import org.springframework.web.servlet.HandlerMapping;
 
 /**
  * 数据加解密过滤器
@@ -38,6 +41,8 @@ public class EncryptionFilter implements Filter {
 
     private EncryptAlgorithm encryptAlgorithm = new AesEncryptAlgorithm();
 
+    private DispatcherServlet dispatcherServlet;
+
     public EncryptionFilter() {
         this.encryptionConfig = new EncryptionConfig();
     }
@@ -46,9 +51,15 @@ public class EncryptionFilter implements Filter {
         this.encryptionConfig = config;
     }
 
-    public EncryptionFilter(EncryptionConfig config, EncryptAlgorithm encryptAlgorithm) {
+    public EncryptionFilter(EncryptionConfig config, DispatcherServlet dispatcherServlet) {
+        this.encryptionConfig = config;
+        this.dispatcherServlet = dispatcherServlet;
+    }
+
+    public EncryptionFilter(EncryptionConfig config, EncryptAlgorithm encryptAlgorithm, DispatcherServlet dispatcherServlet) {
         this.encryptionConfig = config;
         this.encryptAlgorithm = encryptAlgorithm;
+        this.dispatcherServlet = dispatcherServlet;
     }
 
     public EncryptionFilter(String key) {
@@ -61,6 +72,8 @@ public class EncryptionFilter implements Filter {
                             String responseCharset, boolean debug) {
         this.encryptionConfig = new EncryptionConfig(key, responseEncryptUriList, requestDecryptUriList, responseCharset, debug);
     }
+
+    private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -82,10 +95,10 @@ public class EncryptionFilter implements Filter {
             return;
         }
 
-        boolean decryptionStatus = this.contains(encryptionConfig.getRequestDecryptUriList(), uri, req.getMethod());
-        boolean encryptionStatus = this.contains(encryptionConfig.getResponseEncryptUriList(), uri, req.getMethod());
-        boolean decryptionIgnoreStatus = this.contains(encryptionConfig.getRequestDecryptUriIgnoreList(), uri, req.getMethod());
-        boolean encryptionIgnoreStatus = this.contains(encryptionConfig.getResponseEncryptUriIgnoreList(), uri, req.getMethod());
+        boolean decryptionStatus = this.contains(encryptionConfig.getRequestDecryptUriList(), uri, req.getMethod(), req);
+        boolean encryptionStatus = this.contains(encryptionConfig.getResponseEncryptUriList(), uri, req.getMethod(), req);
+        boolean decryptionIgnoreStatus = this.contains(encryptionConfig.getRequestDecryptUriIgnoreList(), uri, req.getMethod(), req);
+        boolean encryptionIgnoreStatus = this.contains(encryptionConfig.getResponseEncryptUriIgnoreList(), uri, req.getMethod(), req);
 
         // 没有配置具体加解密的URI默认全部都开启加解密
         if (CollectionUtils.isEmpty(encryptionConfig.getRequestDecryptUriList())
@@ -205,7 +218,7 @@ public class EncryptionFilter implements Filter {
         }
     }
 
-    private boolean contains(List<String> list, String uri, String methodType) {
+    private boolean contains(List<String> list, String uri, String methodType, HttpServletRequest request) {
         if (list.contains(uri)) {
             return true;
         }
@@ -214,7 +227,49 @@ public class EncryptionFilter implements Filter {
         if (list.contains(prefixUri)) {
             return true;
         }
+
+        // 优先用AntPathMatcher，其实用这个也够了，底层是一样的，下面用的方式兜底
+        for (String u : list) {
+            boolean match = antPathMatcher.match(u, prefixUri);
+            if (match) {
+                return true;
+            }
+        }
+
+        try {
+            // 支持RestFul风格API
+            // 采用Spring MVC内置的匹配方式将当前请求匹配到对应的Controller Method上，获取注解进行匹配是否要加解密
+            HandlerExecutionChain handler = getHandler(request);
+            if (Objects.isNull(handler)) {
+                return false;
+            }
+
+            if (Objects.nonNull(handler.getHandler()) && handler.getHandler() instanceof HandlerMethod) {
+                HandlerMethod handlerMethod = (HandlerMethod) handler.getHandler();
+                String apiUri = RequestUriUtils.getApiUri(handlerMethod.getClass(), handlerMethod.getMethod(), request.getContextPath());
+                if (list.contains(apiUri)) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return false;
+    }
+
+    protected HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception {
+        if (Objects.isNull(dispatcherServlet)) {
+            return null;
+        }
+        if (dispatcherServlet.getHandlerMappings() != null) {
+            for (HandlerMapping mapping : dispatcherServlet.getHandlerMappings()) {
+                HandlerExecutionChain handler = mapping.getHandler(request);
+                if (handler != null) {
+                    return handler;
+                }
+            }
+        }
+        return null;
     }
 
     @Override
