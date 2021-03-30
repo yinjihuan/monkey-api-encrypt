@@ -19,15 +19,14 @@ import org.slf4j.LoggerFactory;
 
 import com.cxytiandi.encrypt.algorithm.AesEncryptAlgorithm;
 import com.cxytiandi.encrypt.algorithm.EncryptAlgorithm;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.HandlerExecutionChain;
 import org.springframework.web.servlet.HandlerMapping;
-import org.springframework.web.servlet.handler.AbstractHandlerMethodMapping;
 
 /**
  * 数据加解密过滤器
@@ -225,6 +224,14 @@ public class EncryptionFilter implements Filter {
         logger.debug("contains uri: {}", prefixUri);
         if (list.contains(prefixUri)) {
             return true;
+        }
+
+        // 优先用AntPathMatcher，其实用这个也够了，底层是一样的，下面用的方式兜底
+        for (String u : list) {
+            boolean match = new AntPathMatcher().match(u, uri);
+            if (match) {
+                return true;
+            }
         }
 
         try {
