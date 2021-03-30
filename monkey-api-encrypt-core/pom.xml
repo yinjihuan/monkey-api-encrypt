@@ -109,7 +109,13 @@
 			<version>2.0.6.RELEASE</version>
 			<scope>provided</scope>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>5.3.4</version>
+			<scope>provided</scope>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

@@ -12,6 +12,7 @@ import com.cxytiandi.encrypt.algorithm.EncryptAlgorithm;
 import com.cxytiandi.encrypt.core.EncryptionConfig;
 import com.cxytiandi.encrypt.core.EncryptionFilter;
 import com.cxytiandi.encrypt.springboot.init.ApiEncryptDataInit;
+import org.springframework.web.servlet.DispatcherServlet;
 
 
 /**
@@ -31,6 +32,12 @@ public class EncryptAutoConfiguration {
     private EncryptAlgorithm encryptAlgorithm;
 
     /**
+     * 用于解决@PathVariable风格的URI
+     */
+    @Autowired(required = false)
+    private DispatcherServlet dispatcherServlet;
+
+    /**
      * 不要用泛型注册Filter,泛型在Spring Boot 2.x版本中才有
      *
      * @return 过滤器
@@ -40,9 +47,9 @@ public class EncryptAutoConfiguration {
     public FilterRegistrationBean filterRegistration() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
         if (encryptAlgorithm != null) {
-            registration.setFilter(new EncryptionFilter(encryptionConfig, encryptAlgorithm));
+            registration.setFilter(new EncryptionFilter(encryptionConfig, encryptAlgorithm, dispatcherServlet));
         } else {
-            registration.setFilter(new EncryptionFilter(encryptionConfig));
+            registration.setFilter(new EncryptionFilter(encryptionConfig, dispatcherServlet));
         }
         registration.addUrlPatterns(encryptionConfig.getUrlPatterns());
         registration.setName("EncryptionFilter");
