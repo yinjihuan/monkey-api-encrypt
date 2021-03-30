@@ -73,6 +73,8 @@ public class EncryptionFilter implements Filter {
         this.encryptionConfig = new EncryptionConfig(key, responseEncryptUriList, requestDecryptUriList, responseCharset, debug);
     }
 
+    private AntPathMatcher antPathMatcher = new AntPathMatcher();
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -228,7 +230,7 @@ public class EncryptionFilter implements Filter {
 
         // 优先用AntPathMatcher，其实用这个也够了，底层是一样的，下面用的方式兜底
         for (String u : list) {
-            boolean match = new AntPathMatcher().match(u, uri);
+            boolean match = antPathMatcher.match(u, prefixUri);
             if (match) {
                 return true;
             }

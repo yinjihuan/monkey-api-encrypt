@@ -65,6 +65,16 @@ public class UserController {
 		System.err.println(dto.getId() + "\t" + dto.getName());
 		return dto;
 	}
+
+	@Encrypt
+	@GetMapping("/save/{id}")
+	public UserDto getUser(@PathVariable int id) {
+		UserDto dto = new UserDto();
+		dto.setId(id);
+		dto.setName("加密实体对象");
+		return dto;
+	}
+
 	
 	@RequestMapping(value="encryptEntityXml",produces= {MediaType.APPLICATION_XML_VALUE})
 	public UserXmlDto encryptEntityXml() {
