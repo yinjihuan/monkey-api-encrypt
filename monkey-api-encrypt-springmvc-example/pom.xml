@@ -9,7 +9,7 @@
 	<name>monkey-api-encrypt-springmvc-example</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-		<spring.version>5.2.5.RELEASE</spring.version>
+		<spring.version>6.0.0</spring.version>
 	</properties>
 	<dependencies>
 		<dependency>
